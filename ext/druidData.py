@@ -1,11 +1,10 @@
 #! --*-- coding:utf-8 --*--
-import MySQLdb
-import time
-import requests
 import json
-import urllib2
-from  PYtest import *
-from idlelib.ReplaceDialog import replace
+
+import requests
+
+from  ext.PYtest import *
+
 
 def extractYMdata(transaction_id):
     
