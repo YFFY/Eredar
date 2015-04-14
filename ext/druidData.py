@@ -10,6 +10,7 @@ from idlelib.ReplaceDialog import replace
 def extractYMdata(transaction_id):
 
     for itransaction_id in transaction_id:
+
         #remove 'u' 
         trns_id = itransaction_id.replace('u\'','\'')
         print trns_id
