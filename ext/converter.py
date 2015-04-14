@@ -17,8 +17,17 @@ class QueryConverter(object):
         sql_list.append("select")
 
         parser_data = parser.get_data()
+        group_data = parser.get_group()
+
         for data in parser_data:
             sql_list.append(DATAMAP.get(data).get("formula"))
+            sql_list.append(',')
+
+        for group in group_data:
+            sql_list.append(group)
+            sql_list.append(',')
+        sql_list.pop()
+
         sql_list.append("from")
         sql_list.append("ymds_mysql_datasource")
         sql_list.append("where")
@@ -28,7 +37,7 @@ class QueryConverter(object):
         sql_list.append("and")
         sql_list.append(get_datatime(parser.get_time().get("end")))
 
-        group_data = parser.get_group()
+
         if group_data:
             sql_list.append("group by")
             for group in group_data:
@@ -41,7 +50,8 @@ class QueryConverter(object):
                 operate_item = filter_items.get(filter_key)
                 for operate in operate_item:
                     sql_list.append('{0} {1} "{2}"'.format(filter_key, OPERATEMAP.get(operate), operate_item.get(operate)))
-
+                    sql_list.append('and')
+        sql_list.pop()
         order_items = parser.get_sort()
         if order_items:
             sql_list.append("order by")

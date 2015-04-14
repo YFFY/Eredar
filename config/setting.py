@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 # --*-- coding:utf-8 --*--
 
+import logging
+
 OPERATEMAP = {
     "$eq":"=",
     "$neq":"<>",
@@ -117,3 +119,24 @@ DATAMAP = {
     "precision" : 0
   }
 }
+
+database = {
+    "host":"172.20.0.123",
+    "port":"3306",
+    "user":"robin",
+    "password":"111111",
+    "databasename":"ym_mysql",
+    "table":"ym_druid"
+}
+
+
+format_dict = {
+   1 : logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'),
+   2 : logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'),
+   3 : logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'),
+   4 : logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'),
+   5 : logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+}
+
+offer_aff_combination = [('90010508', '90010622')]
+click_url = "http://172.30.10.146:8080/trace?"
