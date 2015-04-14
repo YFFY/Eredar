@@ -1,11 +1,13 @@
 #! /usr/bin/env python
 # --*-- coding:utf-8 --*--
 
-import requests
+#  构造跳转数据
 import string
-import time
 from config.setting import *
 from ext.util import *
+
+
+
 
 class Constructor(object):
 

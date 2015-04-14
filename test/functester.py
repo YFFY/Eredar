@@ -3,7 +3,7 @@
 
 
 import unittest
-from ext.jsoner import JsonDecorator
+from ext.decorator import JsonDecorator
 
 
 

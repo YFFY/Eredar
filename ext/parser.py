@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # --*-- coding:utf-8 --*--
 
+#解析druid查询语句
 
 import json
 

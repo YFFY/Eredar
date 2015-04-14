@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 # --*-- coding:utf-8 --*--
 
+# json比较类
+
 import json
 
 

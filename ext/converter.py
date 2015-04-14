@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 # --*-- coding:utf-8 --*--
 
+# 将druid 查询转化为 SQL
+
 from ext.parser import QueryParser
 from config.setting import *
 from ext.util import get_datatime
