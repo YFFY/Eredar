@@ -138,5 +138,10 @@ format_dict = {
    5 : logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 }
 
-offer_aff_combination = [('90010508', '90010622')]
-click_url = "http://172.30.10.146:8080/trace?"
+
+# jump data structure
+offer_aff_combination = [(200002, 90010409), (200044,90010409), (200045,90010409),
+                         (200105, 90010409), (200106,90010409), (200002,90010409)]
+click_url_template = "http://172.30.10.146:8080/trace?offer_id=$offerid&aff_id=$affid"
+conv_url_template = "http://172.30.10.146:8080/conv?transaction_id=$transactionid"
+cycletimes = 10       #  data count = 10 * len(offer_aff_combination)

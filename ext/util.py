@@ -1,9 +1,13 @@
 #! /usr/bin/env python
 # --*-- coding:utf-8 --*--
 
+import os
+import sys
+
 import time
 import json
 import traceback
+from bs4 import BeautifulSoup
 import requests
 from config.setting import *
 
@@ -11,8 +15,14 @@ from config.setting import *
 def get_datatime(value):
     return time.strftime(TIME_FORMAT, time.localtime(value))
 
-def get_clickid(rsp):
-    pass
+def get_clickid(content):
+    soup = BeautifulSoup(content)
+    for link in soup.find_all('a'):
+        return link.get('href').split('=')[1]
+
+def getLogPath(logname):
+    return os.path.join(os.path.split(os.path.abspath(sys.path[0]))[0], 'log/{0}'.format(logname))
+
 
 class Logger():
 
