@@ -29,8 +29,7 @@ class MySql(object):
         self.cursor = self.conn.cursor()  
         dimensionKey = ''
         dimensionValue = ''
-        dimensionIndex = 1 
-        
+        dimensionIndex = 1
         for key in sqlmap.keys():
             dimensionKey = dimensionKey + key
             dimensionValue = dimensionValue + '"'+ str(sqlmap[str(key)]) + '"'

@@ -7,7 +7,6 @@ from  ext.PYtest import *
 
 
 def extractYMdata(transaction_id):
-    
     #url request
     trns_id = transaction_id
     #r=requests.get('http://172.20.0.69:8080/impala/report?report_param={"settings":{"time": {"start":1407744000,"end":1408093200,"timezone":0},"return_format":"json", "report_id":"232sds32322","data_source":"ymds_druid_datasource","pagination":{"size":5,"page":0}},"group":["transaction_id","offer_id","click_ip","conv_ip","click_time","cpa"],"data": ["click"],"filters":{"$and":{"transaction_id":{"$eq":"002b4af5-731e-43f7-aa37-7b523e71d63f"}}},"sort":[]}').text
