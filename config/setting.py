@@ -3,6 +3,8 @@
 
 import logging
 
+
+# SQL 配置
 OPERATEMAP = {
     "$eq":"=",
     "$neq":"<>",
@@ -120,6 +122,8 @@ DATAMAP = {
   }
 }
 
+
+# 数据库配置
 database = {
     "host":"172.20.0.123",
     "port":"3306",
@@ -130,6 +134,7 @@ database = {
 }
 
 
+# 日志配置
 format_dict = {
    1 : logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'),
    2 : logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'),
@@ -139,7 +144,7 @@ format_dict = {
 }
 
 
-# jump data structure
+# 跳转数据配置
 offer_aff_combination = [(200002, 90010409), (200044,90010409), (200045,90010409),
                          (200105, 90010409), (200106,90010409), (200002,90010409)]
 click_url_template = "http://172.30.10.146:8080/trace?offer_id=$offerid&aff_id=$affid"
