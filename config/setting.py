@@ -149,4 +149,4 @@ offer_aff_combination = [(200002, 90010409), (200044,90010409), (200045,90010409
                          (200105, 90010409), (200106,90010409), (200002,90010409)]
 click_url_template = "http://172.30.10.146:8080/trace?offer_id=$offerid&aff_id=$affid"
 conv_url_template = "http://172.30.10.146:8080/conv?transaction_id=$transactionid"
-cycletimes = 10       #  data count = 10 * len(offer_aff_combination)
+cycletimes = 1       #  data count = 10 * len(offer_aff_combination)

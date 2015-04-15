@@ -18,7 +18,7 @@ class Constructor(object):
 
     @property
     def setClickConv(self):
-        for runtime in cycletimes:
+        for runtime in range(cycletimes):
             for data in offer_aff_combination:
                 offer_id, aff_id = data
                 t = string.Template(click_url_template)
@@ -34,8 +34,9 @@ class Constructor(object):
                     self.transactionidList.append(transaction_id)
     @property
     def getTranasctionId(self):
+        self.setClickConv
         return self.transactionidList
 
 if __name__ == '__main__':
     c = Constructor()
-    c.setClickConv
+    print c.getTranasctionId
