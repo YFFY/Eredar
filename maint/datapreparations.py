@@ -17,10 +17,10 @@ class SyncData(object):
         transactionid_list = self.ymconstructor.getTranasctionId
         if transactionid_list:
             self.logger.info('get transction_id list success, length: {0} content:{1}'.format(len(transactionid_list), transactionid_list))
-            druidResult = getDruidDetailResult(start_time, end_time, transactionid_list)
+            column, druidResult = getDruidDetailResult(start_time, end_time, transactionid_list)
             if druidResult:
                 self.logger.info('get druid detail result success')
-                self.ymdatabaser.syncDruidData(druidResult)
+                self.ymdatabaser.syncDruidData(column, druidResult)
             else:
                 self.logger.error('get empty druid detail result list, check collector, kafka, realtime carefully')
         else:

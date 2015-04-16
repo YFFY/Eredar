@@ -37,14 +37,13 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list):
     try:
         r = requests.get(geturl)
         data = json.loads(r.text).get('data').get('data')
-        return data[1:]
+        return data[0], data[1:]
     except Exception as ex:
         traceback.print_exc()
     else:
         return None
 
 def unicode2str(unicodeList):
-    print unicodeList
     strList = list()
     if unicodeList:
         for u in unicodeList:
@@ -53,6 +52,10 @@ def unicode2str(unicodeList):
             else:
                 strList.append(u.encode())
     return tuple(strList)
+
+def getVaildColumn(column):
+    if isinstance(column, list):
+        return ','.join(column)
 
 class Logger():
 

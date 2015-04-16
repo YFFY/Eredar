@@ -24,10 +24,10 @@ class Dber(object):
         except Exception as ex:
             traceback.print_exc()
 
-    def syncDruidData(self, druidresult):
+    def syncDruidData(self, column, druidresult):
         if isinstance(druidresult, list):
             for result in druidresult:
-                insertSql = sync_sql.format(database.get('tablename'), unicode2str(result))
+                insertSql = sync_sql.format(database.get('tablename'), getVaildColumn(column), unicode2str(result))
                 self.insertRecord(insertSql)
         self.setColseCommit()
 
