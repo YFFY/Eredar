@@ -36,11 +36,24 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list):
     geturl = query_url + param
     try:
         r = requests.get(geturl)
-        return json.loads(r.text).get('data').get('data')[1:]
+        data = json.loads(r.text).get('data').get('data')
+        return data[0], data[1:]
     except Exception as ex:
         traceback.print_exc()
     else:
         return None
+
+def unicode2str(unicodeList):
+    strList = list()
+    if unicodeList:
+        for u in unicodeList:
+            if not u:
+                u = u''
+            if not isinstance(u, basestring):
+                pass
+            else:
+                strList.append(u.encode())
+    return tuple(strList)
 
 class Logger():
 

@@ -19,15 +19,15 @@ class Dber(object):
 
     def setConnection(self):
         try:
-            self.conn = MySQLdb.Connect(host=self.host,user=self.user,passwd=self.password,db=self.dbname,port=self.port)
+            self.conn = MySQLdb.Connect(host=self.host,user=self.user,passwd=self.password,db=self.dbname,port=self.port,charset='utf8')
             self.cur = self.conn.cursor()
         except Exception as ex:
             traceback.print_exc()
 
-    def syncDruidData(self, druidresult):
+    def syncDruidData(self, column, druidresult):
         if isinstance(druidresult, list):
             for result in druidresult:
-                insertSql = "insert into {0} values {1}".format(database.get('tablename'), result)
+                insertSql = "insert into {0} values {1}".format(database.get('tablename'), unicode2str(result))
                 print insertSql
                 self.insertRecord(insertSql)
 
