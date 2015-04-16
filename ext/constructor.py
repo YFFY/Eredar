@@ -11,8 +11,6 @@ class Constructor(object):
 
     def __init__(self):
         self.transactionidList = list()
-        logname = getLogPath('constructor.log')
-        self.logger = Logger(logname, 1, 'root').getlog()
 
     @property
     def setClickConv(self):
@@ -24,7 +22,7 @@ class Constructor(object):
                 try:
                     r = requests.get(click_url, allow_redirects=False)
                 except Exception as ex:
-                    self.logger.error(ex)
+                    traceback.print_exc()
                 else:
                     jumpaddress = r.text
                     transaction_id = get_clickid(jumpaddress)
@@ -32,10 +30,10 @@ class Constructor(object):
                     conv_url = t.substitute({"transactionid":transaction_id})
                     r = requests.get(conv_url)
                     if r.text == 'success=true;conversioned':
-                        self.logger.info('data structure success:{0}'.format(transaction_id))
                         self.transactionidList.append(transaction_id)
                     else:
-                        self.logger.error('{0} transaction_id:{1}'.format(r.text, transaction_id))
+                        pass
+            time.sleep(1)
 
     @property
     def getTranasctionId(self):
