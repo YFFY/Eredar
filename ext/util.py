@@ -55,7 +55,9 @@ def unicode2str(unicodeList):
 
 def getVaildColumn(column):
     if isinstance(column, list):
-        return ','.join(column)
+        columnString = ','.join(column)
+    return '({0})'.format(columnString)
+
 
 class Logger():
 
