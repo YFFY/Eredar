@@ -14,6 +14,9 @@ from config.setting import *
 def get_datatime(value):
     return time.strftime(TIME_FORMAT, time.localtime(value))
 
+def get_now():
+    return time.strftime('%Y-%m-%dT%H:%M:%S',time.localtime(time.time()))
+
 def datetime_timestamp(datetime):
     return int(time.mktime(time.strptime(datetime, '%Y-%m-%d %H:%M:%S')))
 
@@ -42,6 +45,16 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list):
         traceback.print_exc()
     else:
         return None
+
+def getResponse(param):
+    url = query_url + param
+    try:
+        r = requests.get(url)
+    except Exception as ex:
+        traceback.print_exc()
+    else:
+        return r.text
+
 
 def unicode2str(unicodeList):
     strList = list()

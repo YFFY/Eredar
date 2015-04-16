@@ -17,6 +17,7 @@ class Dber(object):
         self.conn = None
         self.setConnection()
 
+
     def setConnection(self):
         try:
             self.conn = MySQLdb.Connect(host=self.host,user=self.user,passwd=self.password,db=self.dbname,port=self.port,charset='utf8')
@@ -27,11 +28,15 @@ class Dber(object):
     def syncDruidData(self, column, druidresult):
         if isinstance(druidresult, list):
             for result in druidresult:
-                insertSql = sync_sql.format(database.get('tablename'), getVaildColumn(column), unicode2str(result))
-                self.insertRecord(insertSql)
+                insertSql = sync_sql.format(database.get('detail_table'), getVaildColumn(column), unicode2str(result))
+                self.executSql(insertSql)
         self.setColseCommit()
 
-    def insertRecord(self, sql):
+    def getCase(self):
+        case = self.getRecord('select * from ym_case limit 1')
+        return case[0]
+
+    def executSql(self, sql):
         if self.conn:
             self.cur.execute(sql)
 
