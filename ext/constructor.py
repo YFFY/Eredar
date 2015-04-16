@@ -3,6 +3,7 @@
 
 #  构造跳转数据
 import string
+from random import randint
 from config.setting import *
 from ext.util import *
 
@@ -20,7 +21,7 @@ class Constructor(object):
                 t = string.Template(click_url_template)
                 click_url = t.substitute({"offerid":offer_id, "affid":aff_id})
                 try:
-                    r = requests.get(click_url, allow_redirects=False)
+                    r = requests.get(click_url, headers=headers, allow_redirects=False)
                 except Exception as ex:
                     traceback.print_exc()
                 else:
@@ -28,12 +29,12 @@ class Constructor(object):
                     transaction_id = get_clickid(jumpaddress)
                     t = string.Template(conv_url_template)
                     conv_url = t.substitute({"transactionid":transaction_id})
+                    time.sleep(randint(1,3))
                     r = requests.get(conv_url)
                     if r.text == 'success=true;conversioned':
                         self.transactionidList.append(transaction_id)
                     else:
                         pass
-            time.sleep(1)
 
     @property
     def getTranasctionId(self):

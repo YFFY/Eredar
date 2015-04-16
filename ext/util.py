@@ -34,8 +34,9 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list):
     if "'" in param:
         param = param.replace("'",'"')
     try:
-        print param
-        r = requests.post(query_url, data = param, headers=headers)
+        geturl = query_url + param
+        print geturl
+        r = requests.get(geturl)
         return json.loads(r.text).get('data').get('data')[1:]
     except Exception as ex:
         traceback.print_exc()

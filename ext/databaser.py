@@ -25,16 +25,16 @@ class Dber(object):
             traceback.print_exc()
 
     def syncDruidData(self, druidresult):
-        insertSql = "insert into {0} values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(database.get('tablename'))
-        if druidresult:
-            self.insertRecord(insertSql, druidresult)
+        if isinstance(druidresult, list):
+            for result in druidresult:
+                insertSql = "insert into {0} values {1}".format(database.get('tablename'), result)
+                self.insertRecord(insertSql)
 
-    def insertRecord(self, sql, record):
+    def insertRecord(self, sql):
         if self.conn:
-            if isinstance(record, list):
-                self.cur.executemany(sql, record)
-            else:
-                self.cur.execute(sql, record)
+            self.cur.execute(sql, record)
+
+    def setCommit(self):
         self.conn.commit()
 
     def getRecord(self, sql):
