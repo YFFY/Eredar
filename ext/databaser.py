@@ -27,19 +27,18 @@ class Dber(object):
     def syncDruidData(self, druidresult):
         if isinstance(druidresult, list):
             for result in druidresult:
-                print result
                 insertSql = "insert into {0} values {1}".format(database.get('tablename'), unicode2str(result))
-                print insertSql
                 self.insertRecord(insertSql)
-                break
-        self.setCommit()
+        self.setColseCommit()
 
     def insertRecord(self, sql):
         if self.conn:
             self.cur.execute(sql)
 
-    def setCommit(self):
+    def setColseCommit(self):
+        self.cur.commit()
         self.conn.commit()
+        self.conn.close()
 
     def getRecord(self, sql):
         if self.conn:
