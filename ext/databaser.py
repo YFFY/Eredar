@@ -27,7 +27,7 @@ class Dber(object):
     def syncDruidData(self, druidresult):
         if isinstance(druidresult, list):
             for result in druidresult:
-                insertSql = "insert into {0} values {1}".format(database.get('tablename'), unicode2str(result))
+                insertSql = sync_sql.format(database.get('tablename'), unicode2str(result))
                 self.insertRecord(insertSql)
         self.setColseCommit()
 
