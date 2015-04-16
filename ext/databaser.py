@@ -27,9 +27,11 @@ class Dber(object):
     def syncDruidData(self, druidresult):
         if isinstance(druidresult, list):
             for result in druidresult:
+                print result
                 insertSql = "insert into {0} values {1}".format(database.get('tablename'), unicode2str(result))
                 print insertSql
                 self.insertRecord(insertSql)
+                break
         self.setCommit()
 
     def insertRecord(self, sql):
