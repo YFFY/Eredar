@@ -36,8 +36,8 @@ class Dber(object):
             self.cur.execute(sql)
 
     def setColseCommit(self):
-        self.cur.commit()
         self.conn.commit()
+        self.cur.close()
         self.conn.close()
 
     def getRecord(self, sql):
