@@ -28,11 +28,12 @@ class Dber(object):
         if isinstance(druidresult, list):
             for result in druidresult:
                 insertSql = "insert into {0} values {1}".format(database.get('tablename'), result)
+                print insertSql
                 self.insertRecord(insertSql)
 
     def insertRecord(self, sql):
         if self.conn:
-            self.cur.execute(sql, record)
+            self.cur.execute(sql)
 
     def setCommit(self):
         self.conn.commit()
