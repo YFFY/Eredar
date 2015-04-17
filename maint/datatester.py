@@ -19,10 +19,12 @@ class DataTester(object):
 
     def get_case(self):
         self.caseinfo = self.dber.getCase(self.caseindex)
-        self.caseno, self.casename, self.casecontent = self.caseinfo[0], self.caseinfo[1], self.caseinfo[2]
+        self.caseno, self.casename, self.start, self.end , self.casecontent = self.caseinfo[0], self.caseinfo[1], self.caseinfo[2], self.caseinfo[3], self.caseinfo[4]
+        self.casecontent = self.casecontent % (self.start, self.end)
 
     def get_sql(self):
         self.sql = self.converter.getSQL(self.casecontent)
+        print 'get sql: {0}'.format(self.sql)
 
     def get_druid_result(self):
         return getResponse(self.casecontent)
