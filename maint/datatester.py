@@ -41,18 +41,23 @@ class DataTester(object):
         column = druidData[0]
         druidMap = dict(zip(column, druidData[1]))
 
+        resultinfo = dict()
+
         for i in range(len(mysqlResult) - len(column)):
             mysqlResult.pop()
         mysqlMap = dict(zip(column, mysqlResult))
-        if JsonDecorator(druidData) == JsonDecorator(mysqlMap):
+        if JsonDecorator(druidMap) == JsonDecorator(mysqlMap):
             result = 'success'
         else:
             result = 'failed'
         current = get_now()
-        updateSql = "update {0} set run_time='{1}',run_result='{2}' where caseno={3}".format(database.get('case_table'), current, result, self.caseno)
+        updateSql = "update {0} set run_time='{1}',run_result='{2}', druid_result='{3}', mysql_result='{4}' where caseno={3}".format(database.get('case_table'), current, result, druidMap, mysqlMap, self.caseno)
         self.dber.executSql(updateSql)
         self.dber.setColseCommit()
-        return result
+        resultinfo["result"] = result
+        resultinfo["druid_result"] = druidMap
+        resultinfo["mysql_result"] = mysqlMap
+        return resultinfo
 
 if __name__ == '__main__':
     dt = DataTester(0)

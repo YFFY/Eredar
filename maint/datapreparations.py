@@ -22,7 +22,5 @@ class SyncData(object):
         else:
             pass
 
-
 if __name__ == '__main__':
-    sd = SyncData()
-    sd.sync(1429228800, 1429315200)
+    pass

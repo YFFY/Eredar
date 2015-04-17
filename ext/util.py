@@ -18,9 +18,9 @@ def get_now():
     return time.strftime('%Y-%m-%dT%H:%M:%S',time.localtime(time.time()))
 
 def get_unixtime_range():
-    unix_start = int(time.time())
-    unix_end = unix_start + 28800
-    return unix_start, unix_end
+     start = int(time.mktime(time.strptime(get_now(), '%Y-%m-%dT%H:%M:%S'))) - 300
+     end = start + 28800
+     return start, end
 
 def datetime_timestamp(datetime):
     return int(time.mktime(time.strptime(datetime, '%Y-%m-%d %H:%M:%S')))
@@ -46,7 +46,6 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list):
     try:
         r = requests.get(geturl)
         data = json.loads(r.text).get('data').get('data')
-        print 'get detail result: {0}'.format(data)
         return data[0], data[1:]
     except Exception as ex:
         traceback.print_exc()
@@ -102,4 +101,4 @@ class Logger():
         return self.logger
 
 if __name__ == '__main__':
-    pass
+    print get_unixtime_range()

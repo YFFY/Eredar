@@ -25,8 +25,8 @@ def eredar():
 
     for countindex in range(countNum):
         dt = DataTester(countindex)
-        result = dt.isPass
-        logger.info('test {0} case {1}'.format(countindex+1, result))
+        resultinfo = dt.isPass
+        logger.info('test:{0} case:{1} durid_result:{2} mysql_result:{3}'.format(countindex+1, result, resultinfo.get('druid_result'), resultinfo.get('mysql_result')))
 
 
 if __name__ == '__main__':
