@@ -12,13 +12,10 @@ class SyncData(object):
         self.ymdatabaser = Dber()
 
     def sync(self, start_time, end_time):
-
         transactionid_list = self.ymconstructor.getTranasctionId
         if transactionid_list:
-
             column, druidResult = getDruidDetailResult(start_time, end_time, transactionid_list)
             if druidResult:
-
                 self.ymdatabaser.syncDruidData(column, druidResult)
             else:
                 pass

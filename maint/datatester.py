@@ -42,7 +42,6 @@ class DataTester(object):
         for i in range(len(mysqlResult) - len(column)):
             mysqlResult.pop()
         mysqlMap = dict(zip(column, mysqlResult))
-        self.logger.info('get druid result: {0} get mysql result:{1}'.format(druidMap, mysqlMap))
         if JsonDecorator(druidData) == JsonDecorator(mysqlMap):
             result = 'success'
         else:
