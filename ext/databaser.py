@@ -32,9 +32,9 @@ class Dber(object):
                 self.executSql(insertSql)
         self.setColseCommit()
 
-    def getCase(self):
+    def getCase(self, index):
         case = self.getRecord('select * from ym_case limit 1')
-        return case[0]
+        return case[index]
 
     def executSql(self, sql):
         if self.conn:

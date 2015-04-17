@@ -10,15 +10,16 @@ from ext.util import *
 
 class DataTester(object):
 
-    def __init__(self):
+    def __init__(self, caseindex):
         self.dber = Dber()
         self.logger = getLogger()
         self.converter = QueryConverter()
+        self.caseindex = caseindex
         self.get_case()
         self.get_sql()
 
     def get_case(self):
-        self.caseinfo = self.dber.getCase()
+        self.caseinfo = self.dber.getCase(self.caseindex)
         self.caseno, self.casename, self.casecontent = self.caseinfo[0], self.caseinfo[1], self.caseinfo[2]
 
     def get_sql(self):
@@ -54,5 +55,5 @@ class DataTester(object):
         self.dber.setColseCommit()
 
 if __name__ == '__main__':
-    dt = DataTester()
+    dt = DataTester(0)
     dt.isPass

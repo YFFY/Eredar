@@ -29,4 +29,4 @@ class SyncData(object):
 
 if __name__ == '__main__':
     sd = SyncData()
-    sd.sync(1429142400, 1429228800)
+    sd.sync(1429228800, 1429315200)
