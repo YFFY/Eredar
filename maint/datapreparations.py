@@ -18,9 +18,11 @@ class SyncData(object):
             if druidResult:
                 self.ymdatabaser.syncDruidData(column, druidResult)
             else:
-                pass
+                print 'get druid result failed, exit'
+                sys.exit()
         else:
-            pass
+            print 'get transaction_id list failed'
+            sys.exit()
 
 if __name__ == '__main__':
     pass

@@ -45,8 +45,12 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list):
     print 'send get url:{0}'.format(geturl)
     try:
         r = requests.get(geturl)
-        data = json.loads(r.text).get('data').get('data')
-        return data[0], data[1:]
+        try:
+            data = json.loads(r.text).get('data').get('data')
+            return data[0], data[1:]
+        except ValueError as ex:
+            print r.text
+            sys.exit()
     except Exception as ex:
         traceback.print_exc()
     else:
