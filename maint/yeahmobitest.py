@@ -9,14 +9,24 @@ def eredar():
 
     countNum = int(sys.argv[1])
     logger = getLogger()
+    sync_start, sync_end = get_unixtime_range()
     logger.info('get sync time: {0} ~ {1}'.format(sync_start, sync_end))
     dp = SyncData()
     logger.info('sync detail data begin')
     dp.sync(sync_start, sync_end)
     logger.info('sync detail data end')
+
+    # update start and end of case
+    updateCase = "update ym_case set start_time_of_case='{0}', end_time_of_case='{1}'".format(sync_start, sync_end)
+    dber = Dber()
+    dber.executSql(updateCase)
+    dber.setColseCommit()
+    logger.info("update case's time success")
+
     for countindex in range(countNum):
         dt = DataTester(countindex)
-        dt.isPass
+        result = dt.isPass
+        logger.info('test {0} case {1}'.format(countindex+1, result))
 
 
 if __name__ == '__main__':

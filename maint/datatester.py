@@ -50,6 +50,7 @@ class DataTester(object):
         updateSql = "update {0} set run_time='{1}',run_result='{2}' where caseno={3}".format(database.get('case_table'), current, result, self.caseno)
         self.dber.executSql(updateSql)
         self.dber.setColseCommit()
+        return result
 
 if __name__ == '__main__':
     dt = DataTester(0)

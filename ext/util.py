@@ -17,6 +17,11 @@ def get_datatime(value):
 def get_now():
     return time.strftime('%Y-%m-%dT%H:%M:%S',time.localtime(time.time()))
 
+def get_unixtime_range():
+    unix_start = int(time.time())
+    unix_end = unix_start + 28800
+    return unix_start, unix_end
+
 def datetime_timestamp(datetime):
     return int(time.mktime(time.strptime(datetime, '%Y-%m-%d %H:%M:%S')))
 
