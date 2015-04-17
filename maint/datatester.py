@@ -12,7 +12,6 @@ class DataTester(object):
 
     def __init__(self, caseindex):
         self.dber = Dber()
-        self.logger = getLogger()
         self.converter = QueryConverter()
         self.caseindex = caseindex
         self.get_case()
@@ -50,7 +49,6 @@ class DataTester(object):
             result = 'failed'
         current = get_now()
         updateSql = "update {0} set run_time='{1}',run_result='{2}' where caseno={3}".format(database.get('case_table'), current, result, self.caseno)
-        self.logger.info('update run result sql: {0}'.format(updateSql))
         self.dber.executSql(updateSql)
         self.dber.setColseCommit()
 

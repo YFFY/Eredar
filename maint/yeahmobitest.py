@@ -5,10 +5,9 @@ from maint.datapreparations import *
 from maint.datatester import *
 
 
-def eredar(countNum):
+def eredar():
 
-    if countNum == -1:
-        countNum = int(sys.argv[1])
+    countNum = int(sys.argv[1])
     logger = getLogger()
     logger.info('get sync time: {0} ~ {1}'.format(sync_start, sync_end))
     dp = SyncData()
