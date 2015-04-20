@@ -14,6 +14,7 @@ class DataTester(object):
         self.dber = Dber()
         self.converter = QueryConverter()
         self.caseindex = caseindex
+        self.logger = getLogger()
         self.get_case()
         self.get_sql()
 
@@ -21,10 +22,11 @@ class DataTester(object):
         self.caseinfo = self.dber.getCase(self.caseindex)
         self.caseno, self.casename, self.start, self.end , self.casecontent = self.caseinfo[0], self.caseinfo[1], self.caseinfo[2], self.caseinfo[3], self.caseinfo[4]
         self.casecontent = self.casecontent % (self.start, self.end)
+        self.logger.info('get case no: {0} case content:{1}'.format(self.caseno, self.casecontent))
 
     def get_sql(self):
         self.sql = self.converter.getSQL(self.casecontent)
-        print 'get sql: {0}'.format(self.sql)
+        self.logger.info('get sql: {0}'.format(self.sql))
 
     def get_druid_result(self):
         return getResponse(self.casecontent)
@@ -36,6 +38,9 @@ class DataTester(object):
     def isPass(self):
         druidResult = self.get_druid_result()
         mysqlResult = self.get_mysql_result()
+
+        self.logger.info('get druid result: {0}'.format(druidResult))
+        self.logger.info('get mysql result: {0}'.format(mysqlResult))
 
         druidData = json.loads(druidResult).get('data').get('data')
         column = druidData[0]
@@ -55,6 +60,8 @@ class DataTester(object):
         self.dber.executSql(updateSql)
         self.dber.setColseCommit()
         resultinfo["result"] = result
+        self.logger.info('get druid map result: {0}'.format(druidMap))
+        self.logger.info('get mysql map result: {0}'.format(mysqlMap))
         resultinfo["druid_result"] = druidMap
         resultinfo["mysql_result"] = mysqlMap
         return resultinfo

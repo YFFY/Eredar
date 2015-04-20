@@ -16,6 +16,7 @@ class Dber(object):
         self.dbname = database.get('databasename')
         self.conn = None
         self.setConnection()
+        self.logger = getLogger()
 
 
     def setConnection(self):
@@ -29,6 +30,7 @@ class Dber(object):
         if isinstance(druidresult, list):
             for result in druidresult:
                 insertSql = sync_sql.format(database.get('detail_table'), getVaildColumn(column), unicode2str(result))
+                self.logger.info('get sync data sql: {0}'.format(insertSql))
                 self.executSql(insertSql)
         self.setColseCommit()
 

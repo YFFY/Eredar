@@ -38,21 +38,23 @@ def getLogger():
     return logger
 
 def getDruidDetailResult(start_time, end_time, transaction_id_list):
+    logger = getLogger()
     param = param_template % (start_time, end_time, transaction_id_list)
     if "'" in param:
         param = param.replace("'",'"')
     geturl = query_url + param
-    print 'send get url:{0}'.format(geturl)
+    logger.info('send detail query url to druid')
     try:
         r = requests.get(geturl)
         try:
             data = json.loads(r.text).get('data').get('data')
+            logger.info('get druid detail result success')
             return data[0], data[1:]
         except ValueError as ex:
-            print r.text
+            logger.error('get druid detail result failed: {0}'.format(r.text))
             sys.exit()
     except Exception as ex:
-        traceback.print_exc()
+        logger.error('get druid detail result failed: {0}'.format(ex))
     else:
         return None
 
