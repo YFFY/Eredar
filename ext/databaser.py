@@ -32,7 +32,10 @@ class Dber(object):
                 insertSql = sync_sql.format(database.get('detail_table'), getVaildColumn(column), unicode2str(result))
                 self.logger.info('get sync data sql: {0}'.format(insertSql))
                 self.executSql(insertSql)
+        else:
+            self.logger.error("get druid result is not a list, exit")
         self.setColseCommit()
+        self.logger.info('insert druid detail data to mysql success')
 
     def getCase(self, index):
         case = self.getRecord('select * from ym_case')

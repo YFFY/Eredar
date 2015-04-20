@@ -19,7 +19,7 @@ class SyncData(object):
             if druidResult:
                 self.ymdatabaser.syncDruidData(column, druidResult)
             else:
-                self.logger.error('get druid result failed, exit')
+                self.logger.error('get druid detail result is None, exit')
                 sys.exit()
         else:
             self.logger.error('get transaction_id list failed')
