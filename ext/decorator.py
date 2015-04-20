@@ -4,7 +4,7 @@
 # json比较类
 
 import json
-
+from decimal import *
 
 class JsonDecorator(object):
 
@@ -12,11 +12,15 @@ class JsonDecorator(object):
         self.data = data
 
     def __eq__(self, other):
-        try:
-            thisData = json.loads(self.data)
-            otherData = json.loads(other.data)
-        except Exception as ex:
-            return False
+        if isinstance(self.data, dict) and isinstance(other.data, dict):
+            thisData = self.data
+            otherData = other.data
+        else:
+            try:
+                thisData = json.loads(self.data)
+                otherData = json.loads(other.data)
+            except Exception as ex:
+                return False
 
         if len(thisData) != len(otherData):
             return False
