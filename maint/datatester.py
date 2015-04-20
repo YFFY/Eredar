@@ -56,9 +56,12 @@ class DataTester(object):
         else:
             result = 'failed'
         current = get_now()
-        updateSql = "update {0} set run_time='{1}',run_result='{2}', druid_result='{3}', mysql_result='{4}' where caseno={3}".format(database.get('case_table'), current, result, druidMap, mysqlMap, self.caseno)
+        updateSql = 'update {0} set run_time="{1}",run_result="{2}", druid_result="{3}", mysql_result="{4}" where caseno={5}'.format(
+            database.get('case_table'), current, result, druidMap, mysqlMap, self.caseno)
+        self.logger.info('get update case info sql: {0}'.format(updateSql))
         self.dber.executSql(updateSql)
         self.dber.setColseCommit()
+        self.logger.info('exexute update case info sql success')
         resultinfo["result"] = result
         self.logger.info('get druid map result: {0}'.format(druidMap))
         self.logger.info('get mysql map result: {0}'.format(mysqlMap))
