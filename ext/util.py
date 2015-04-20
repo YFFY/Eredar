@@ -8,6 +8,8 @@ import json
 import traceback
 from bs4 import BeautifulSoup
 import requests
+import logging
+import logging.config
 from config.setting import *
 
 
@@ -30,12 +32,10 @@ def get_clickid(content):
     for link in soup.find_all('a'):
         return link.get('href').split('=')[1]
 
-def getLogger(logname = 'sync.log'):
-    logger = Logger(getLogPath(logname), 1, 'root').getlog()
+def getLogger():
+    logging.config.fileConfig(os.path.join(os.path.split(sys.path[0])[0],'config/logging.conf'))
+    logger = logging.getLogger("eredar")
     return logger
-
-def getLogPath(logname):
-    return os.path.join(os.path.split(os.path.abspath(sys.path[0]))[0], 'log/{0}'.format(logname))
 
 def getDruidDetailResult(start_time, end_time, transaction_id_list):
     param = param_template % (start_time, end_time, transaction_id_list)
@@ -81,28 +81,6 @@ def getVaildColumn(column):
         columnString = ','.join(column)
     return '({0})'.format(columnString)
 
-
-class Logger():
-
-    def __init__(self, logname, loglevel, logger):
-        self.logger = logging.getLogger(logger)
-        self.logger.setLevel(logging.DEBUG)
-
-        fh = logging.FileHandler(logname)
-        fh.setLevel(logging.DEBUG)
-
-        ch = logging.StreamHandler()
-        ch.setLevel(logging.DEBUG)
-
-        formatter = format_dict[int(loglevel)]
-        fh.setFormatter(formatter)
-        ch.setFormatter(formatter)
-
-        self.logger.addHandler(fh)
-        self.logger.addHandler(ch)
-
-    def getlog(self):
-        return self.logger
 
 if __name__ == '__main__':
     print get_unixtime_range()

@@ -9,6 +9,7 @@ class SyncData(object):
 
     def __init__(self):
         self.ymconstructor = Constructor()
+        self.logger = getLogger()
         self.ymdatabaser = Dber()
 
     def sync(self, start_time, end_time):
@@ -18,10 +19,10 @@ class SyncData(object):
             if druidResult:
                 self.ymdatabaser.syncDruidData(column, druidResult)
             else:
-                print 'get druid result failed, exit'
+                self.logger.error('get druid result failed, exit')
                 sys.exit()
         else:
-            print 'get transaction_id list failed'
+            self.logger.error('get transaction_id list failed')
             sys.exit()
 
 if __name__ == '__main__':

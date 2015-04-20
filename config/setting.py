@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 # --*-- coding:utf-8 --*--
 
-import logging
 
 
 # SQL 配置
@@ -136,15 +135,6 @@ database = {
     "case_table": "ym_case"
 }
 
-
-# 日志配置
-format_dict = {
-   1 : logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'),
-   2 : logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'),
-   3 : logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'),
-   4 : logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'),
-   5 : logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-}
 
 
 # 跳转数据配置
