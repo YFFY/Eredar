@@ -35,7 +35,7 @@ class YeahMobiTask(object):
     def sync2db(self):
         taskId = self.getTaskId()
         ymtasksql = 'insert into ym_task(taskid, taskname, createtime) values("{0}", "{1}", "{2}")'.format(
-            taskId, self.getTaskName(), get_now()
+            taskId, self.getTaskName, get_now()
         )
         self.executor.executSql(ymtasksql)
         self.logger.info('create task {0} success'.format(self.getTaskName()))
