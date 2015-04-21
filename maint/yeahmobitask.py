@@ -15,12 +15,17 @@ class YeahMobiTask(object):
     def setTaskName(self, taskName):
         self.taskName = taskName
 
+    @property
     def getTaskName(self):
         return self.taskName
 
     def setTaskCaseNum(self, caseNum):
-        self.caseNum = caseNum
+        try:
+            self.caseNum = int(caseNum)
+        except Exception as ex:
+            raise ex
 
+    @property
     def getTaskCaseNum(self):
         return self.caseNum
 
@@ -34,13 +39,12 @@ class YeahMobiTask(object):
         )
         self.executor.executSql(ymtasksql)
         self.logger.info('create task {0} success'.format(self.getTaskName()))
-        if isinstance(int(caseNum), int):
-            for caseid in range(caseNum):
-                ymresultsql = 'insert into ym_result(taskid, caseid) values("{0}", "{1}")'.format(
-                    taskId, caseid
-                )
-                self.executor.executSql(ymresultsql)
-                self.logger.info('add taskid {0} caseid {1} success'.format(taskId, caseid))
+        for caseid in range(self.getTaskCaseNum):
+            ymresultsql = 'insert into ym_result(taskid, caseid) values("{0}", "{1}")'.format(
+                taskId, caseid
+            )
+            self.executor.executSql(ymresultsql)
+            self.logger.info('add taskid {0} caseid {1} success'.format(taskId, caseid))
         self.executor.setColseCommit()
 
     def runTask(self, needSyncNewData = True, needUpdateCase = True):
@@ -59,7 +63,7 @@ class YeahMobiTask(object):
             self.logger.info("update case success")
 
         self.sync2db()
-        for index in range(int(self.getTaskCaseNum())):
+        for index in range(self.getTaskCaseNum):
             dt = DataTester(index)
             resultinfo = dt.isPass
             self.logger.info('test:{0} case:{1} durid_result:{2} mysql_result:{3}'.format(countindex+1, resultinfo.get('result'), resultinfo.get('druid_result'), resultinfo.get('mysql_result')))
