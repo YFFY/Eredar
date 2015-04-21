@@ -56,8 +56,6 @@ class DataTester(object):
         for value in druidData[1:]:
             druidMapList.append(dict(zip(column, value)))
 
-
-
         mysqlMapList = list()
         for mysqlValue in mysqlResult:
             mysqlValueList = list(mysqlValue)
