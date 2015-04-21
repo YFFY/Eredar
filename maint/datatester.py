@@ -36,7 +36,10 @@ class DataTester(object):
         return getResponse(self.casecontent)
 
     def get_mysql_result(self):
-        return list(self.dber.getRecord(self.sql)[0])
+        try:
+            return list(self.dber.getRecord(self.sql)[0])
+        except IndexError as ex:
+            self.logger.error('get mysql result is empty set, check ym_detail table first')
 
     @property
     def isPass(self):

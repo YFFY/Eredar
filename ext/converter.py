@@ -62,7 +62,6 @@ class QueryConverter(object):
                 for operate in operate_item:
                     sql_list.append('{0} {1} "{2}"'.format(filter_key, OPERATEMAP.get(operate), operate_item.get(operate)))
                     sql_list.append('and')
-
             sql_list.pop()
 
         if order_items:
