@@ -29,10 +29,15 @@ class YeahMobiTask(object):
     def getTaskCaseNum(self):
         return self.caseNum
 
+    @property
+    def setTaskId(self):
+        self.taskId =  randint(1, 1000000)
+
     def getTaskId(self):
-        return randint(1, 1000000)
+        return self.taskId
 
     def sync2db(self):
+        self.setTaskId
         taskId = self.getTaskId()
         ymtasksql = 'insert into ym_task(taskid, taskname, createtime) values("{0}", "{1}", "{2}")'.format(
             taskId, self.getTaskName, get_now()
@@ -64,7 +69,7 @@ class YeahMobiTask(object):
 
         self.sync2db()
         for index in range(self.getTaskCaseNum):
-            dt = DataTester(taskid, index)
+            dt = DataTester(self.getTaskId(), index)
             resultinfo = dt.isPass
             self.logger.info('test:{0} case:{1} durid_result:{2} mysql_result:{3}'.format(index+1, resultinfo.get('result'), resultinfo.get('druid_result'), resultinfo.get('mysql_result')))
 

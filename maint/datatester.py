@@ -27,7 +27,7 @@ class DataTester(object):
         if isinstance(self.end, basestring):
             self.end = int(self.end)
         self.casecontent = self.casecontent % (self.start, self.end)
-        self.logger.info('get case :'.format(self.casecontent))
+        self.logger.info('get case :{0}'.format(self.casecontent))
 
     def get_sql(self):
         self.sql = self.converter.getSQL(self.casecontent)
@@ -64,7 +64,7 @@ class DataTester(object):
         else:
             result = 'failed'
         current = get_now()
-        updateSql = 'update ym_result set druid_result = "{0}", druid_query = "{1}", mysql_query = "{2}", mysql_result = "{3}", run_time = "{4}" where taskid = {4} and caseid = {5}'.format(
+        updateSql = 'update ym_result set druid_result = "{0}", druid_query = "{1}", mysql_query = "{2}", mysql_result = "{3}", run_time = "{4}" where taskid = {5} and caseid = {6}'.format(
             druidMap, self.casecontent, self.sql, mysqlMap, get_now(), self.taskid, self.caseid
         )
         self.logger.info('get update case info sql: {0}'.format(updateSql))
