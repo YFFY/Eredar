@@ -72,7 +72,7 @@ if __name__ == '__main__':
     try:
         taskName, caseNum, needSyncNewData, needUpdateCase = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
     except Exception as ex:
-        print 'use error:\n\t\targv[1]: the name of this task\n\t\targv[2]: the max number of run case'
+        print 'use error:\n\t\targv[1]: the name of this task\n\t\targv[2]: the max number of run case\n\t\targv[3]: is need sync new detail data\n\t\targv[4]: is need update case'
     ymt = YeahMobiTask()
     ymt.setTaskCaseNum(taskName)
     ymt.setTaskCaseNum(caseNum)
