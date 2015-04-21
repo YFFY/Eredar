@@ -10,8 +10,6 @@ class YeahMobiTask(object):
 
     def __init__(self):
         self.executor = Dber()
-        self.setTaskCaseNum()
-        self.setTaskCaseNum()
         self.logger = getLogger()
 
     def setTaskName(self, taskName):
@@ -61,7 +59,7 @@ class YeahMobiTask(object):
             self.logger.info("update case success")
 
         self.sync2db()
-        for index in range(caseNum):
+        for index in range(int(self.getTaskCaseNum())):
             dt = DataTester(index)
             resultinfo = dt.isPass
             self.logger.info('test:{0} case:{1} durid_result:{2} mysql_result:{3}'.format(countindex+1, resultinfo.get('result'), resultinfo.get('druid_result'), resultinfo.get('mysql_result')))
@@ -74,6 +72,6 @@ if __name__ == '__main__':
     except Exception as ex:
         print 'use error:\n\t\targv[1]: the name of this task\n\t\targv[2]: the max number of run case\n\t\targv[3]: is need sync new detail data\n\t\targv[4]: is need update case'
     ymt = YeahMobiTask()
-    ymt.setTaskCaseNum(taskName)
+    ymt.setTaskName(taskName)
     ymt.setTaskCaseNum(caseNum)
     ymt.runTask(needSyncNewData, needUpdateCase)
