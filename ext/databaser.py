@@ -43,7 +43,8 @@ class Dber(object):
 
     def executSql(self, sql):
         if self.conn:
-            self.cur.execute(sql)
+            result = self.cur.execute(sql)
+        return result
 
     def setColseCommit(self):
         self.conn.commit()
