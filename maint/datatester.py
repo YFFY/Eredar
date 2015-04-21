@@ -60,7 +60,8 @@ class DataTester(object):
             database.get('case_table'), current, result, druidMap, mysqlMap, self.caseno)
         self.logger.info('get update case info sql: {0}'.format(updateSql))
         self.dber.executSql(updateSql)
-        self.dber.setColseCommit()
+        self.dber.setCommit()
+        self.dber.setColse()
         self.logger.info('exexute update case info sql success')
         resultinfo["result"] = result
         self.logger.info('get druid map result: {0}'.format(druidMap))

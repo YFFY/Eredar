@@ -38,14 +38,14 @@ class YeahMobiTask(object):
             taskId, self.getTaskName, get_now()
         )
         self.executor.executSql(ymtasksql)
-        self.logger.info('create task {0} success'.format(self.getTaskName()))
+        self.logger.info('create task {0} success'.format(self.getTaskName))
         for caseid in range(self.getTaskCaseNum):
             ymresultsql = 'insert into ym_result(taskid, caseid) values("{0}", "{1}")'.format(
                 taskId, caseid
             )
             self.executor.executSql(ymresultsql)
             self.logger.info('add taskid {0} caseid {1} success'.format(taskId, caseid))
-        self.executor.setColseCommit()
+        self.executor.setCommit()
 
     def runTask(self, needSyncNewData = True, needUpdateCase = True):
         sync_start, sync_end = get_unixtime_range()
@@ -59,7 +59,7 @@ class YeahMobiTask(object):
         if needUpdateCase:
             updateCase = "update ym_case set start_time_of_case='{0}', end_time_of_case='{1}'".format(sync_start, sync_end)
             self.executor.executSql(updateCase)
-            self.executor.setColseCommit()
+            self.executor.setCommit()
             self.logger.info("update case success")
 
         self.sync2db()

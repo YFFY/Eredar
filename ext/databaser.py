@@ -47,12 +47,14 @@ class Dber(object):
                 result = self.cur.execute(sql)
             return result
         except Exception as ex:
-            self.logger.error("execute sql err: ", ex)
+            self.logger.error("execute sql err: {0}".format(ex))
 
-    def setColseCommit(self):
-        self.conn.commit()
+    def setColse(self):
         self.cur.close()
         self.conn.close()
+
+    def setCommit(self):
+        self.conn.commit()
 
     def getRecord(self, sql):
         if self.conn:
