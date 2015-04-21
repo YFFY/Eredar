@@ -30,15 +30,14 @@ class Dber(object):
         if isinstance(druidresult, list):
             for result in druidresult:
                 insertSql = sync_sql.format(database.get('detail_table'), getVaildColumn(column), unicode2str(result))
-                self.executSql(insertSql)
-                self.logger.info('sync one druid detail record to mysql success')
+                self.logger.info('sync druid detail record to mysql success')
         else:
             self.logger.error("get druid result is not a list, exit")
         self.setCommit()
 
     def getCase(self, index):
         try:
-            case = self.getRecord('select * from ym_case')
+            case = self.getRecord('select id, casename, start_time_of_case, end_time_of_case, casecontent from ym_case')
             return case[index-1]
         except IndexError as ex:
             self.logger.error('case num is smaller than run case num')

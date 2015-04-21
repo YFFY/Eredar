@@ -21,6 +21,10 @@ class DataTester(object):
     def get_case(self):
         self.caseinfo = self.dber.getCase(self.caseindex)
         self.caseno, self.casename, self.start, self.end , self.casecontent = self.caseinfo[0], self.caseinfo[1], self.caseinfo[2], self.caseinfo[3], self.caseinfo[4]
+        if isinstance(self.start, basestring):
+            self.start = int(self.start)
+        if isinstance(self.end, basestring):
+            self.end = int(self.end)
         self.casecontent = self.casecontent % (self.start, self.end)
         self.logger.info('get case no: {0} case content:{1}'.format(self.caseno, self.casecontent))
 
