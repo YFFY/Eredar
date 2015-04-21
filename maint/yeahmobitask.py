@@ -44,7 +44,7 @@ class YeahMobiTask(object):
                 taskId, caseid
             )
             self.executor.executSql(ymresultsql)
-            self.logger.info('add taskid {0} caseid {1} success'.format(taskId, caseid))
+            self.logger.info('add taskid: {0} caseid: {1} to table success'.format(taskId, caseid))
         self.executor.setCommit()
 
     def runTask(self, needSyncNewData = True, needUpdateCase = True):
