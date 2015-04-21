@@ -38,7 +38,7 @@ class DataTester(object):
 
     def get_mysql_result(self):
         try:
-            return list(self.dber.getRecord(self.sql)[0])
+            return list(self.dber.getRecord(self.sql))
         except IndexError as ex:
             self.logger.error('get mysql result is empty set, check ym_detail table first')
 
@@ -52,17 +52,25 @@ class DataTester(object):
 
         druidData = json.loads(druidResult).get('data').get('data')
         column = druidData[0]
-        druidMap = dict(zip(column, druidData[1]))
+        druidMapList = list()
+        for value in druidData[1:]:
+            druidMapList.append(dict(zip(column, value)))
 
-        resultinfo = dict()
 
-        for i in range(len(mysqlResult) - len(column)):
-            mysqlResult.pop()
-        mysqlMap = dict(zip(column, mysqlResult))
-        if JsonDecorator(druidMap) == JsonDecorator(mysqlMap):
+
+        mysqlMapList = list()
+        for mysqlValue in mysqlResult:
+            mysqlValueList = list(mysqlValue)
+            for i in range(len(mysqlValueList) - len(column)):
+                mysqlValueList.pop()
+            mysqlMapList.append(dict(zip(column, mysqlValueList)))
+
+        if JsonDecorator(druidMapList) == JsonDecorator(mysqlMapList):
             result = 'success'
         else:
             result = 'failed'
+
+        resultinfo = dict()
         current = get_now()
         updateSql = """update ym_result set druid_result = "{0}", druid_query = '{1}', mysql_query = "{2}", mysql_result = "{3}", run_time = "{4}" where taskid = {5} and caseid = {6}""".format(
             druidMap, self.casecontent, self.sql, mysqlMap, get_now(), self.taskid, self.caseid
