@@ -20,13 +20,13 @@ class DataTester(object):
 
     def get_case(self):
         self.caseinfo = self.dber.getCase(self.caseindex)
-        self.caseno, self.casename, self.start, self.end , self.casecontent = self.caseinfo[0], self.caseinfo[1], self.caseinfo[2], self.caseinfo[3], self.caseinfo[4]
+        self.caseid, self.casename, self.start, self.end , self.casecontent = self.caseinfo[0], self.caseinfo[1], self.caseinfo[2], self.caseinfo[3], self.caseinfo[4]
         if isinstance(self.start, basestring):
             self.start = int(self.start)
         if isinstance(self.end, basestring):
             self.end = int(self.end)
         self.casecontent = self.casecontent % (self.start, self.end)
-        self.logger.info('get case no: {0} case content:{1}'.format(self.caseno, self.casecontent))
+        self.logger.info('get case :'.format(self.casecontent))
 
     def get_sql(self):
         self.sql = self.converter.getSQL(self.casecontent)
@@ -63,8 +63,8 @@ class DataTester(object):
         else:
             result = 'failed'
         current = get_now()
-        updateSql = 'update {0} set run_time="{1}",run_result="{2}", druid_result="{3}", mysql_result="{4}" where caseno={5}'.format(
-            database.get('case_table'), current, result, druidMap, mysqlMap, self.caseno)
+        updateSql = 'update {0} set run_time="{1}",run_result="{2}", druid_result="{3}", mysql_result="{4}" where caseid={5}'.format(
+            database.get('case_table'), current, result, druidMap, mysqlMap, self.caseid)
         self.logger.info('get update case info sql: {0}'.format(updateSql))
         self.dber.executSql(updateSql)
         self.dber.setCommit()

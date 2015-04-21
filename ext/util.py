@@ -45,7 +45,6 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list):
     geturl = query_url + param
     try:
         r = requests.get(geturl)
-        logger.info('send detail query url to druid success')
         data = json.loads(r.text).get('data').get('data')
         logger.info('get druid detail result success')
         return data[0], data[1:]

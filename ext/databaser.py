@@ -30,6 +30,7 @@ class Dber(object):
         if isinstance(druidresult, list):
             for result in druidresult:
                 insertSql = sync_sql.format(database.get('detail_table'), getVaildColumn(column), unicode2str(result))
+                self.executSql(insertSql)
                 self.logger.info('sync druid detail record to mysql success')
         else:
             self.logger.error("get druid result is not a list, exit")
