@@ -71,6 +71,8 @@ class QueryConverter(object):
 
         sql_list.append("limit")
         offset = pagination.get('offset')
+        if not offset:
+            offset = 0
         size = pagination.get('size')
         if offset != 0:
             sql_list.append(offset)
