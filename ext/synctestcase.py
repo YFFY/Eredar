@@ -37,7 +37,8 @@ class SyncTestCase(object):
                 print 'sync case success'
             else:
                 print 'sync case failed'
-        self.executor.setColseCommit()
+        self.executor.setCommit()
+        self.executor.setColse()
 
 if __name__ == '__main__':
     stc = SyncTestCase(r'C:\Users\jeff.yu\Desktop\cases')
