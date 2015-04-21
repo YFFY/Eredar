@@ -68,19 +68,19 @@ class DataTester(object):
         else:
             result = 'failed'
 
-        resultinfo = dict()
+
         current = get_now()
         updateSql = """update ym_result set druid_result = "{0}", druid_query = '{1}', mysql_query = "{2}", mysql_result = "{3}", run_time = "{4}" where taskid = {5} and caseid = {6}""".format(
-            druidMap, self.casecontent, self.sql, mysqlMap, get_now(), self.taskid, self.caseid
+            druidMapList, self.casecontent, self.sql, mysqlMapList, get_now(), self.taskid, self.caseid
         )
         self.logger.info('get update case info sql: {0}'.format(updateSql))
         self.dber.executSql(updateSql)
         self.dber.setCommit()
         self.dber.setColse()
         self.logger.info('exexute update case info sql success')
+        resultinfo = dict()
+        resultinfo["caseid"] = self.caseid
         resultinfo["result"] = result
-        self.logger.info('get druid map result: {0}'.format(druidMap))
-        self.logger.info('get mysql map result: {0}'.format(mysqlMap))
         resultinfo["druid_result"] = druidMap
         resultinfo["mysql_result"] = mysqlMap
         return resultinfo

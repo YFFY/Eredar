@@ -71,7 +71,7 @@ class YeahMobiTask(object):
         for index in range(self.getTaskCaseNum):
             dt = DataTester(self.getTaskId(), index)
             resultinfo = dt.isPass
-            self.logger.info('test:{0} case:{1} durid_result:{2} mysql_result:{3}'.format(index+1, resultinfo.get('result'), resultinfo.get('druid_result'), resultinfo.get('mysql_result')))
+            self.logger.info('caseid: {0} result: {1} durid_result:{2} mysql_result:{3}'.format(index+1, resultinfo.get('result'), resultinfo.get('druid_result'), resultinfo.get('mysql_result')))
 
 
 
