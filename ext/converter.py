@@ -52,6 +52,8 @@ class QueryConverter(object):
             sql_list.append("group by")
             for group in group_data:
                 sql_list.append(group)
+                sql_list.append(',')
+            sql_list.pop()
 
         if filter_items:
             sql_list.append("having")
@@ -61,7 +63,7 @@ class QueryConverter(object):
                     sql_list.append('{0} {1} "{2}"'.format(filter_key, OPERATEMAP.get(operate), operate_item.get(operate)))
                     sql_list.append('and')
 
-        sql_list.pop()
+            sql_list.pop()
 
         if order_items:
             sql_list.append("order by")
@@ -79,6 +81,7 @@ class QueryConverter(object):
             sql_list.append(size - offset)
         else:
             sql_list.append(str(size))
+        print sql_list
         return ' '.join(sql_list)
 
 if __name__ == '__main__':
