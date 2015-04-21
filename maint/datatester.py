@@ -10,10 +10,11 @@ from ext.util import *
 
 class DataTester(object):
 
-    def __init__(self, caseindex):
+    def __init__(self, taskid, caseindex):
         self.dber = Dber()
         self.converter = QueryConverter()
         self.caseindex = caseindex
+        self.taskid = taskid
         self.logger = getLogger()
         self.get_case()
         self.get_sql()
@@ -63,8 +64,9 @@ class DataTester(object):
         else:
             result = 'failed'
         current = get_now()
-        updateSql = 'update {0} set run_time="{1}",run_result="{2}", druid_result="{3}", mysql_result="{4}" where caseid={5}'.format(
-            database.get('case_table'), current, result, druidMap, mysqlMap, self.caseid)
+        updateSql = 'update ym_result set druid_result = "{0}", druid_query = "{1}", mysql_query = "{2}", mysql_result = "{3}", run_time = "{4}" where taskid = {4} and caseid = {5}'.format(
+            druidMap, self.casecontent, self.sql, mysqlMap, get_now(), self.taskid, self.caseid
+        )
         self.logger.info('get update case info sql: {0}'.format(updateSql))
         self.dber.executSql(updateSql)
         self.dber.setCommit()

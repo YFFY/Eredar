@@ -80,7 +80,6 @@ class QueryConverter(object):
             sql_list.append(size - offset)
         else:
             sql_list.append(str(size))
-        print sql_list
         return ' '.join(sql_list)
 
 if __name__ == '__main__':
