@@ -67,7 +67,7 @@ class QueryConverter(object):
                         pass
                     sql_list.append(filter_key)
                     sql_list.append(OPERATEMAP.get(filteroperate))
-                    sql_list.append(filtervalue)
+                    sql_list.append(str(filtervalue))
                     sql_list.append('and')
             sql_list.pop()
 

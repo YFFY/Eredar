@@ -9,8 +9,8 @@ OPERATEMAP = {
     "$neq":"<>",
     "$gt":">",
     "$gte":">=",
-    "lt":"<",
-    "lte":"<=",
+    "$lt":"<",
+    "$lte":"<=",
     "$nin":"not in",
     "$in":"in"
 }
