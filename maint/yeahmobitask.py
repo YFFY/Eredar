@@ -25,8 +25,10 @@ class YeahMobiTask(object):
         self.getCaseList()
 
     def updateCase(self):
+        unix_range = get_unixtime_range()
+        start, end = unix_range[0], unix_range[1]
         updateCaseSql = 'update ym_case(start_time_of_case, end_time_of_case) values({0}, {2})'.format(
-            get_unixtime_range()
+            start, end
         )
         self.dber.executSql(updateCaseSql)
         self.dber.setCommit()
