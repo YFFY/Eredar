@@ -50,12 +50,15 @@ class YeahMobiTask(object):
             caseMap = dict()
             self.logger.info(getCaseSql.format(caseid))
             caseinfo = self.dber.getRecord(getCaseSql.format(caseid))
-            caseMap['caseid'] = caseid
-            caseMap['casename'] = caseinfo[0]
-            caseMap['start_time_of_case'] = caseinfo[1]
-            caseMap['end_time_of_case'] = caseinfo[2]
-            caseMap['casecontent'] = caseinfo[3]
-            self.caseList.append(caseMap)
+            try:
+                caseMap['caseid'] = caseid
+                caseMap['casename'] = caseinfo[0]
+                caseMap['start_time_of_case'] = caseinfo[1]
+                caseMap['end_time_of_case'] = caseinfo[2]
+                caseMap['casecontent'] = caseinfo[3]
+                self.caseList.append(caseMap)
+            except Exception as ex:
+                self.logger.error(ex)
 
     def runTask(self):
         self.logger.info('get task success. taskid: {0} task name: {1} caseid of task: {2}'.format(self.taskid, self.taskname, self.caseidlist))
@@ -63,7 +66,8 @@ class YeahMobiTask(object):
             caseid = case.get('caseid')
             casename = case.get('casename')
             case = case.get('casecontent') % (int(case.get('start_time_of_case')), int(case.get('end_time_of_case')))
-            self.logger.info('get case: {0} query: {1}'.format(casename, case))
+            self.logger.info('\n\n')
+            self.logger.info('get case: {0} query content: {1}'.format(casename, case))
             resultInfo = self.dter.runCase(case)
             isPass = resultInfo.get('isPass')
             druid_result = resultInfo['druid_result']

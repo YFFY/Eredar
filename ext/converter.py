@@ -80,6 +80,8 @@ class QueryConverter(object):
             for order_item in order_items:
                 sql_list.append(order_item.get("orderBy"))
                 sql_list.append(ORDERMAP.get(str(order_item.get("order"))))
+                sql_list.append(',')
+            sql_list.pop()
 
         sql_list.append("limit")
         offset = pagination.get('offset', 0)
@@ -91,8 +93,7 @@ class QueryConverter(object):
             sql_list.append(size - offset)
         else:
             sql_list.append(str(size))
-        print sql_list
         return ' '.join(sql_list)
 
 if __name__ == '__main__':
-    print QueryConverter().getSQL({"filters":{"$and":{"offer_id":{"$match":"^1.*"},"aff_manager":{"$neq":"90010404"},"conversion":{"$gt":10}}},"sort":[{"orderBy":"conversion","order":-1}],"data":["click","conversion"],"group ":["offer_id","aff_manager","browser"],"settings":{"return_format":"json","data_source":"ymds_druid_datasource","report_id":"8631614495385992522","pagination":{"page":0,"size":1000000},"time":{"start":1429611579,"end":1429640379,"timezone":0}}})
+    print QueryConverter().getSQL({"filters":{"$and":{"cr":{"$eq":0}},"sort":[],"data":["cr"],"group":["aff_id","offer_id"],"settings":{"return_format":"json","data_source":"ymds_druid_datasource","report_id":"8631614495385992522","pagination":{"page":0,"size":1000000},"time":{"start":1429690643,"end":1429719443,"timezone":0}}}})

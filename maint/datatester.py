@@ -41,7 +41,7 @@ class DataTester(object):
                 mysqlValueList.pop()
             mysqlMapList.append(dict(zip(column, mysqlValueList)))
         self.resultInfo['druid_result'] = druidMapList
-        self.resultInfo['druid_query'] = druid_query
+        self.resultInfo['druid_query'] = case
         self.resultInfo['mysql_query'] = sql
         self.resultInfo['mysql_result'] = mysqlMapList
         self.resultInfo['isPass'] = (JsonDecorator(druidMapList) == JsonDecorator(mysqlMapList))

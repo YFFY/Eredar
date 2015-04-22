@@ -41,4 +41,4 @@ class QueryParser(object):
         return self.jsonQuery.get('sort')
 
 if __name__ == '__main__':
-    pass
+    print QueryParser({"filters":{"$and":{"cr":{"$eq":0}},"sort":[],"data":["cr"],"group":["aff_id","offer_id"],"settings":{"return_format":"json","data_source":"ymds_druid_datasource","report_id":"8631614495385992522","pagination":{"page":0,"size":1000000},"time":{"start":1429691985,"end":1429720785,"timezone":0}}}}).get_pagination()
