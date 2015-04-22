@@ -30,7 +30,7 @@ class SyncTestCase(object):
         self.getCase
         for caseindex, case in enumerate(self.caseList):
             casename = 'case_{0}'.format(caseindex+1)
-            sql = "insert into ym_case(id, casename, casecontent, createtime) values ('{0}', '{1}', '{2}', '{3}')".format(
+            sql = "insert into ym_case(caseid, casename, casecontent, createtime) values ('{0}', '{1}', '{2}', '{3}')".format(
                 caseindex, casename, case, get_now())
             success = self.executor.executSql(sql)
             if success:
