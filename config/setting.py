@@ -11,6 +11,8 @@ OPERATEMAP = {
     "$gte":">=",
     "lt":"<",
     "lte":"<=",
+    "$nin":"not in",
+    "$in":"in"
 }
 
 TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -169,4 +171,10 @@ sync_end = 1429315200
 
 
 # 测试配置
-countNum = 1  #运行的case个数，-1 则取sys.argv[1]
+detailresultinfo = {
+    "isPass" : False,
+    "druid_result": "",
+    "druid_query": "",
+    "mysql_result": "",
+    "mysql_query": ""
+}

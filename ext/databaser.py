@@ -59,7 +59,11 @@ class Dber(object):
     def setCommit(self):
         self.conn.commit()
 
-    def getRecord(self, sql):
+    def getRecord(self, sql, isAll = False):
         if self.conn:
             executeStatus = self.cur.execute(sql)
-            return self.cur.fetchall()
+            if executeStatus:
+                if isAll:
+                    return self.cur.fetchall()
+                else:
+                    return self.cur.fetchone()

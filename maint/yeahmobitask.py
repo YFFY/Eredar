@@ -3,84 +3,95 @@
 
 from datapreparations import *
 from datatester import *
-from random import randint
 
 
 class YeahMobiTask(object):
 
-    def __init__(self):
-        self.executor = Dber()
+    def __init__(self, taskid, taskname, caseidlist, queryNow = True) :
+        self.dber = Dber()
+        self.dter = DataTester()
+        self.dper = SyncData()
         self.logger = getLogger()
+        self.queryNow = queryNow
+        if self.queryNow:
+            start, end = get_unixtime_range()
+            self.dper.sync(start, end)
+            self.updateCase()
+        self.taskid = taskid
+        self.taskname = taskname
+        self.caseidlist = caseidlist
+        self.passcount = 0
+        self.failcount = 0
+        self.getCaseList()
 
-    def setTaskName(self, taskName):
-        self.taskName = taskName
+    def updateCase(self):
+        updateCaseSql = 'update ym_case(start_time_of_case, end_time_of_case) values({0}, {2})'.format(
+            get_unixtime_range()
+        )
+        self.dber.executSql(updateCaseSql)
+        self.dber.setCommit()
+        self.logger.info('update case success')
 
-    @property
-    def getTaskName(self):
-        return self.taskName
-
-    def setTaskCaseNum(self, caseNum):
-        try:
-            self.caseNum = int(caseNum)
-        except Exception as ex:
-            raise ex
-
-    @property
-    def getTaskCaseNum(self):
-        return self.caseNum
-
-    @property
-    def setTaskId(self):
-        self.taskId =  randint(1, 1000000)
 
     def getTaskId(self):
-        return self.taskId
+        return self.taskid
 
-    def sync2db(self):
-        self.setTaskId
-        taskId = self.getTaskId()
-        ymtasksql = 'insert into ym_task(taskid, taskname, createtime) values("{0}", "{1}", "{2}")'.format(
-            taskId, self.getTaskName, get_now()
-        )
-        self.executor.executSql(ymtasksql)
-        self.logger.info('create task {0} success'.format(self.getTaskName))
-        for caseid in range(self.getTaskCaseNum):
-            ymresultsql = 'insert into ym_result(taskid, caseid) values("{0}", "{1}")'.format(
-                taskId, caseid
+    def getTaskName(self):
+        return self.taskname
+
+    def getCaseIdList(self):
+        return self.caseidlist
+
+    def getCaseList(self):
+        self.caseList = list()
+        getCaseSql = 'select casename, start_time_of_case, end_time_of_case, casecontent from ym_case where caseid = {0}'
+        for caseid in self.caseidlist.split(','):
+            caseMap = dict()
+            caseinfo = self.dber.getRecord(getCaseSql.format(caseid))
+            caseMap['caseid'] = caseid
+            caseMap['casename'] = caseinfo[0]
+            caseMap['start_time_of_case'] = caseinfo[1]
+            caseMap['end_time_of_case'] = caseinfo[2]
+            caseMap['casecontent'] = caseinfo[3]
+            self.caseList.append(caseMap)
+
+    def runTask(self):
+        self.logger.info('get task success. taskid: {0} task name: {1} caseid of task: {2}'.format(self.taskid, self.taskname, self.caseidlist))
+        for case in self.caseList:
+            caseid = case.get('caseid')
+            casename = case.get('casename')
+            case = case.get('casecontent') % (int(case.get('start_time_of_case')), int(case.get('end_time_of_case')))
+            self.logger.info('get case: {0} query: {1}'.format(casename, case))
+            resultInfo = self.dter.runCase(case)
+            isPass = resultInfo.get('isPass')
+            druid_result = resultInfo['druid_result']
+            druid_query = resultInfo['druid_query']
+            mysql_query = resultInfo['mysql_query']
+            mysql_result = resultInfo['mysql_result']
+            if isPass:
+                self.passcount += 1
+            else:
+                self.failcount += 1
+            syncDetailResultSql = "insert into ym_detail_result(taskid, caseid, druid_result, druid_query, mysql_query, mysql_result, run_time) values ({0}, {1}, '{2}', '{3}', '{4}', '{5}', '{6}')".format(
+                self.taskid, caseid, druid_result, druid_query, mysql_query, mysql_result, get_now()
             )
-            self.executor.executSql(ymresultsql)
-            self.logger.info('add taskid: {0} caseid: {1} to table success'.format(taskId, caseid))
-        self.executor.setCommit()
-
-    def runTask(self, needSyncNewData = True, needUpdateCase = True):
-        sync_start, sync_end = get_unixtime_range()
-        if needSyncNewData:
-            self.logger.info('set sync time: {0} ~ {1}'.format(sync_start, sync_end))
-            dp = SyncData()
-            self.logger.info('sync detail data begin')
-            dp.sync(sync_start, sync_end)
-            self.logger.info('sync detail data success')
-
-        if needUpdateCase:
-            updateCase = "update ym_case set start_time_of_case='{0}', end_time_of_case='{1}'".format(sync_start, sync_end)
-            self.executor.executSql(updateCase)
-            self.executor.setCommit()
-            self.logger.info("update case success")
-
-        self.sync2db()
-        for index in range(self.getTaskCaseNum):
-            dt = DataTester(self.getTaskId(), index)
-            resultinfo = dt.isPass
-            self.logger.info('caseid: {0} result: {1} durid_result:{2} mysql_result:{3}'.format(index+1, resultinfo.get('result'), resultinfo.get('druid_result'), resultinfo.get('mysql_result')))
-
-
+            self.dber.executSql(syncDetailResultSql)
+        if self.failcount == 0 and self.passcount != 0:
+            taskResult = 'success'
+        else:
+            taskResult = 'failed'
+        syncTaskResultSql = 'insert into ym_task_result(taskid, passcount, failcount, taskresult, runtime) values({0}, {1}, {2}, "{3}", "{4}")'.format(
+            self.taskid, self.passcount, self.failcount, taskResult, get_now()
+        )
+        self.dber.executSql(syncTaskResultSql)
+        self.dber.setCommit()
+        self.dber.setColse()
 
 if __name__ == '__main__':
-    try:
-        taskName, caseNum, needSyncNewData, needUpdateCase = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
-    except Exception as ex:
-        print 'use error:\n\t\targv[1]: the name of this task\n\t\targv[2]: the max number of run case\n\t\targv[3]: is need sync new detail data\n\t\targv[4]: is need update case'
-    ymt = YeahMobiTask()
-    ymt.setTaskName(taskName)
-    ymt.setTaskCaseNum(caseNum)
-    ymt.runTask(needSyncNewData, needUpdateCase)
+    ymt = YeahMobiTask('1', 'task001', '0,1')
+    ymt.runTask()
+
+
+
+
+

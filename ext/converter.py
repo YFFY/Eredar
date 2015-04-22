@@ -58,9 +58,16 @@ class QueryConverter(object):
         if filter_items:
             sql_list.append("having")
             for filter_key in filterKeys:
-                operate_item = filter_items.get(filter_key)
-                for operate in operate_item:
-                    sql_list.append('{0} {1} "{2}"'.format(filter_key, OPERATEMAP.get(operate), operate_item.get(operate)))
+                filter_item = filter_items.get(filter_key)
+                for filteroperate in filter_item:
+                    filtervalue = filter_item.get(filteroperate)
+                    if isinstance(filtervalue, list):
+                        filtervalue = str(tuple(filtervalue)).replace('u','')
+                    else:
+                        pass
+                    sql_list.append(filter_key)
+                    sql_list.append(OPERATEMAP.get(filteroperate))
+                    sql_list.append(filtervalue)
                     sql_list.append('and')
             sql_list.pop()
 
@@ -68,10 +75,10 @@ class QueryConverter(object):
             sql_list.append("order by")
             for order_item in order_items:
                 sql_list.append(order_item.get("orderBy"))
-                sql_list.append(ORDERMAP.get(order_item.get("order")))
+                sql_list.append(ORDERMAP.get(str(order_item.get("order"))))
 
         sql_list.append("limit")
-        offset = pagination.get('offset')
+        offset = pagination.get('offset', 0)
         if not offset:
             offset = 0
         size = pagination.get('size')

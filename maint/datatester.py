@@ -5,50 +5,28 @@ from ext.databaser import *
 from ext.converter import *
 from ext.decorator import *
 from ext.util import *
+import copy
 
 
 
 class DataTester(object):
 
-    def __init__(self, taskid, caseindex):
+    def __init__(self):
         self.dber = Dber()
         self.converter = QueryConverter()
-        self.caseindex = caseindex
-        self.taskid = taskid
         self.logger = getLogger()
-        self.get_case()
-        self.get_sql()
+        self.resultInfo = copy.deepcopy(detailresultinfo)
 
-    def get_case(self):
-        self.caseinfo = self.dber.getCase(self.caseindex)
-        self.caseid, self.casename, self.start, self.end , self.casecontent = self.caseinfo[0], self.caseinfo[1], self.caseinfo[2], self.caseinfo[3], self.caseinfo[4]
-        if isinstance(self.start, basestring):
-            self.start = int(self.start)
-        if isinstance(self.end, basestring):
-            self.end = int(self.end)
-        self.casecontent = self.casecontent % (self.start, self.end)
-        self.logger.info('get case :{0}'.format(self.casecontent))
+    def runCase(self, case):
 
-    def get_sql(self):
-        self.sql = self.converter.getSQL(self.casecontent)
-        self.logger.info('get sql: {0}'.format(self.sql))
-
-    def get_druid_result(self):
-        return getResponse(self.casecontent)
-
-    def get_mysql_result(self):
+        sql = self.converter.getSQL(case)
+        self.logger.info('get sql: {0}'.format(sql))
+        druidResult = getResponse(case)
         try:
-            return list(self.dber.getRecord(self.sql))
-        except IndexError as ex:
-            self.logger.error('get mysql result is empty set, check ym_detail table first')
-
-    @property
-    def isPass(self):
-        druidResult = self.get_druid_result()
-        mysqlResult = self.get_mysql_result()
-
-        self.logger.info('get druid result: {0}'.format(druidResult))
-        self.logger.info('get mysql result: {0}'.format(mysqlResult))
+            mysqlResult = list(self.dber.getRecord(sql, isAll=True))
+        except TypeError as ex:
+            self.logger.error('get empty set from mysql')
+            return self.resultInfo
 
         druidData = json.loads(druidResult).get('data').get('data')
         column = druidData[0]
@@ -62,29 +40,9 @@ class DataTester(object):
             for i in range(len(mysqlValueList) - len(column)):
                 mysqlValueList.pop()
             mysqlMapList.append(dict(zip(column, mysqlValueList)))
-
-        if JsonDecorator(druidMapList) == JsonDecorator(mysqlMapList):
-            result = 'success'
-        else:
-            result = 'failed'
-
-
-        current = get_now()
-        updateSql = """update ym_result set druid_result = "{0}", druid_query = '{1}', mysql_query = "{2}", mysql_result = "{3}", run_time = "{4}" where taskid = {5} and caseid = {6}""".format(
-            druidMapList, self.casecontent, self.sql, mysqlMapList, get_now(), self.taskid, self.caseid
-        )
-        self.logger.info('get update case info sql: {0}'.format(updateSql))
-        self.dber.executSql(updateSql)
-        self.dber.setCommit()
-        self.dber.setColse()
-        self.logger.info('exexute update case info sql success')
-        resultinfo = dict()
-        resultinfo["caseid"] = self.caseid
-        resultinfo["result"] = result
-        resultinfo["druid_result"] = druidMap
-        resultinfo["mysql_result"] = mysqlMap
-        return resultinfo
-
-if __name__ == '__main__':
-    dt = DataTester(0)
-    dt.isPass
+        self.resultInfo['druid_result'] = druidMapList
+        self.resultInfo['druid_query'] = druid_query
+        self.resultInfo['mysql_query'] = sql
+        self.resultInfo['mysql_result'] = mysqlMapList
+        self.resultInfo['isPass'] = (JsonDecorator(druidMapList) == JsonDecorator(mysqlMapList))
+        return self.resultInfo
