@@ -34,16 +34,19 @@ class Constructor(object):
                     try:
                         r = requests.get(conv_url)
                         if r.text == 'success=true;conversioned':
-                            self.logger.info('set click and conv data success')
+                            self.logger.info('.')
                             self.transactionidList.append(transaction_id)
                         else:
                             pass
                     except Exception as ex:
                         self.logger.error('set conv data failed')
 
+
     @property
     def getTranasctionId(self):
+        self.logger.info('construction data begin')
         self.setClickConv
+        self.logger.info('construction data end')
         return self.transactionidList
 
 if __name__ == '__main__':
