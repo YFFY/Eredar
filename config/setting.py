@@ -12,7 +12,8 @@ OPERATEMAP = {
     "$lt":"<",
     "$lte":"<=",
     "$nin":"not in",
-    "$in":"in"
+    "$in":"in",
+    "$match":"like"
 }
 
 TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
