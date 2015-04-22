@@ -40,3 +40,5 @@ class QueryParser(object):
     def get_sort(self):
         return self.jsonQuery.get('sort')
 
+if __name__ == '__main__':
+    pass
