@@ -58,6 +58,7 @@ class Dber(object):
 
     def setCommit(self):
         self.conn.commit()
+        self.cur.close()
 
     def getRecord(self, sql, isAll = False):
         if self.conn:
