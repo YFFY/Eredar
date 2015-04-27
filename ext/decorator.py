@@ -12,25 +12,17 @@ class JsonDecorator(object):
         self.data = data
 
     def __eq__(self, other):
-        if isinstance(self.data, dict) and isinstance(other.data, dict):
-            thisData = self.data
-            otherData = other.data
-        else:
-            try:
-                thisData = json.loads(self.data)
-                otherData = json.loads(other.data)
-            except Exception as ex:
-                return False
 
-        if len(thisData) != len(otherData):
+        if not isinstance(self.data, list) and not isinstance(self.data, list):
             return False
-
-        if thisData and otherData:
-            for thisKey in thisData:
-                if thisData.get(thisKey) != otherData.get(thisKey):
-                    return False
-            for otherKey in otherData:
-                if thisData.get(otherKey) != otherData.get(otherKey):
-                    return False
-
+        else:
+            if len(self.data) != len(other.data):
+                return False
+            else:
+                for thisData in self.data:
+                    if thisData not in other.data:
+                        return False
+                for otherData in other.data:
+                    if otherData not in self.data:
+                        return False
         return True
