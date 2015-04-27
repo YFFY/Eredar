@@ -19,14 +19,14 @@ class DataTester(object):
 
     def runCase(self, case):
 
-        sql = self.converter.getSQL(case)
-        self.logger.info('get sql: {0}'.format(sql))
+        query = self.converter.getSQL(case)
+        self.logger.info('get sql: {0}'.format(query))
         druidResult = getResponse(case)
         try:
-            mysqlResult = list(self.dber.getRecord(sql, isAll=True))
+            mysqlResult = list(self.dber.getRecord(query))
+            print mysqlResult
         except TypeError as ex:
-            self.logger.error('get empty set from mysql')
-            return self.resultInfo
+            raise
 
         druidData = json.loads(druidResult).get('data').get('data')
         column = druidData[0]
@@ -42,7 +42,7 @@ class DataTester(object):
             mysqlMapList.append(dict(zip(column, mysqlValueList)))
         self.resultInfo['druid_result'] = druidMapList
         self.resultInfo['druid_query'] = case
-        self.resultInfo['mysql_query'] = sql
+        self.resultInfo['mysql_query'] = query
         self.resultInfo['mysql_result'] = mysqlMapList
         self.resultInfo['isPass'] = (JsonDecorator(druidMapList) == JsonDecorator(mysqlMapList))
         return self.resultInfo

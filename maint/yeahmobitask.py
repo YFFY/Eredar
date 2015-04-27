@@ -66,7 +66,6 @@ class YeahMobiTask(object):
             caseid = case.get('caseid')
             casename = case.get('casename')
             case = case.get('casecontent') % (int(case.get('start_time_of_case')), int(case.get('end_time_of_case')))
-            self.logger.info('\n\n')
             self.logger.info('get case: {0} query content: {1}'.format(casename, case))
             resultInfo = self.dter.runCase(case)
             isPass = resultInfo.get('isPass')
@@ -94,7 +93,7 @@ class YeahMobiTask(object):
         self.dber.setColse()
 
 if __name__ == '__main__':
-    ymt = YeahMobiTask('1', 'task001', '0,1,2,3', True)
+    ymt = YeahMobiTask('1', 'task001', '0,1', False)
     ymt.runTask()
 
 
