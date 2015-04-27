@@ -46,8 +46,12 @@ class DataTester(object):
         if mysqlResult:
             for mysqlValue in mysqlResult:
                 mysqlValueList = list(mysqlValue)
-                for i in range(len(mysqlValueList) - len(column)):
-                    mysqlValueList.pop()
+                try:
+                    for i in range(len(mysqlValueList) - len(column)):
+                        mysqlValueList.pop()
+                except UnboundLocalError as err:
+                    self.logger.error("get column offset failed, may be get druid result failed")
+                    return self.resultInfo
                 mysqlMapList.append(dict(zip(column, mysqlValueList)))
         else:
             pass
