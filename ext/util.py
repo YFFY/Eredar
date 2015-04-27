@@ -64,6 +64,8 @@ def getResponse(param):
     else:
         return r.text
 
+def getTaskFlag():
+    return 'tf{0}'.format(int(time.time()))
 
 def unicode2str(unicodeList):
     strList = list()
