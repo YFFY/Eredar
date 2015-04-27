@@ -57,7 +57,7 @@ class YeahMobiTask(object):
                 caseMap['casecontent'] = caseinfo[3].strip()
                 self.caseList.append(caseMap)
             except Exception as ex:
-                self.logger.error(ex)
+                self.logger.info('can not find caseid : {0} skip it'.format(caseid))
         self.logger.info('get yeahmobi report case success')
 
     def runTask(self):
@@ -93,7 +93,7 @@ class YeahMobiTask(object):
         self.dber.setColse()
 
 if __name__ == '__main__':
-    ymt = YeahMobiTask('1', 'task001', '0,1', False)
+    ymt = YeahMobiTask('1', 'task001', ','.join([str(i) for i in range(142)]), False)
     ymt.runTask()
 
 

@@ -85,14 +85,14 @@ class QueryConverter(object):
 
         sql_list.append("limit")
         offset = pagination.get('offset', 0)
-        if not offset:
-            offset = 0
+        page = pagination.get('page')
         size = pagination.get('size')
-        if offset != 0:
-            sql_list.append(offset)
-            sql_list.append(size - offset)
+        if page != 0:
+            sql_list.append(str(page * size))
+            sql_list.append(',')
+            sql_list.append(str((page+1) * size))
         else:
-            sql_list.append(str(size))
+            sql_list.append(str((page+1) * size))
         return ' '.join(sql_list)
 
 if __name__ == '__main__':
