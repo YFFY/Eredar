@@ -7,32 +7,32 @@ from datatester import *
 
 class Tasker(object):
 
-    def __init__(self, taskid, taskname, caseidlist, queryNow = True) :
+    def __init__(self, id, taskid, taskname, caseidlist, queryNow = True) :
         self.dber = Dber()
         self.dter = DataTester()
         self.dper = SyncData()
         self.logger = getLogger()
+        self.caseidlist = caseidlist
         self.queryNow = queryNow
         if self.queryNow:
             start, end = get_unixtime_range()
             self.dper.sync(start, end)
-            self.updateCase()
+            self.updateCase(self.caseidlist)
         self.taskid = taskid
+        self.taskresult_id = id
         self.taskname = taskname
-        self.caseidlist = caseidlist
         self.passcount = 0
         self.failcount = 0
         self.getCaseList()
 
-    def updateCase(self):
+    def updateCase(self, caseidList):
         unix_range = get_unixtime_range()
         start, end = unix_range[0], unix_range[1]
-        updateCaseSql = 'update ym_case set start_time_of_case="{0}", end_time_of_case="{1}"'.format(start, end)
-        self.logger.info('update case sql : {0}'.format(updateCaseSql))
-        self.dber.executSql(updateCaseSql)
-        self.dber.setCommit()
-        self.logger.info('update case success')
-
+        for caseid in caseidList:
+            updateCaseSql = 'update ym_case set start_time_of_case="{0}", end_time_of_case="{1}" where caseid = {2}'.format(start, end, caseid)
+            self.dber.executSql(updateCaseSql)
+            self.dber.setCommit()
+            self.logger.info('update case success, caseid :{0}'.format(caseid))
 
     def getTaskId(self):
         return self.taskid
@@ -79,8 +79,8 @@ class Tasker(object):
             else:
                 self.failcount += 1
                 detailResult = "failed"
-            syncDetailResultSql = """insert into ym_detail_result(taskid, caseid, result, druid_result, druid_query, mysql_query, mysql_result, run_time) values ({0}, {1}, "{2}", "{3}", '{4}', "{5}", "{6}", "{7}")""".format(
-                self.taskid, caseid, detailResult, druid_result, druid_query, mysql_query, mysql_result, get_now()
+            syncDetailResultSql = """insert into ym_detail_result(taskid, caseid, result, druid_result, druid_query, mysql_query, mysql_result, run_time, id) values ({0}, {1}, "{2}", "{3}", '{4}', "{5}", "{6}", "{7}")""".format(
+                self.taskid, caseid, detailResult, druid_result, druid_query, mysql_query, mysql_result, get_now(), self.taskresult_id
             )
             self.dber.executSql(syncDetailResultSql)
         if self.failcount == 0 and self.passcount != 0:
@@ -99,9 +99,9 @@ def taskCenter():
 
     dber = Dber()
     logger = getLogger()
-    taskTuple = dber.getRecord('select taskid, taskname, caselist, isrealtime from ym_task', True)
+    taskTuple = dber.getRecord('select id, taskid, taskname, caselist, isrealtime from ym_task', True)
     for task in taskTuple:
-        taskid, taskname, caselist, isrealtime = task[0], task[1], task[2], task[3]
+        id, taskid, taskname, caselist, isrealtime = task[0], task[1], task[2], task[3], task[4]
         if isrealtime == 'no':
             isrealtime = False
             message = "so we don't construct new data"
@@ -110,7 +110,7 @@ def taskCenter():
             message = "so we construct new data"
         logger.info('get task: {0}, isrealtime: {1}, {2}'.format(taskname, isrealtime, message))
         time.sleep(5)
-        tasker = Tasker(taskid, taskname, caselist, isrealtime)
+        tasker = Tasker(id, taskid, taskname, caselist, isrealtime)
         tasker.runTask()
 
 if __name__ == '__main__':
