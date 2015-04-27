@@ -5,7 +5,7 @@ from datapreparations import *
 from datatester import *
 
 
-class YeahMobiTask(object):
+class Tasker(object):
 
     def __init__(self, taskid, taskname, caseidlist, queryNow = True) :
         self.dber = Dber()
@@ -94,9 +94,27 @@ class YeahMobiTask(object):
         self.dber.setCommit()
         self.dber.setColse()
 
+
+def taskCenter():
+
+    dber = Dber()
+    logger = getLogger()
+    taskTuple = dber.getRecord('select taskid, taskname, caselist, isrealtime from ym_task', True)
+    for task in taskTuple:
+        taskid, taskname, caselist, isrealtime = task[0], task[1], task[2], task[3]
+        if isrealtime == 'no':
+            isrealtime = False
+            message = "so we don't construct new data"
+        else:
+            isrealtime = True
+            message = "so we construct new data"
+        logger.info('get task: {0}, isrealtime: {1}, {2}'.format(taskname, isrealtime, message))
+        time.sleep(5)
+        tasker = Tasker(taskid, taskname, caselist, isrealtime)
+        tasker.runTask()
+
 if __name__ == '__main__':
-    ymt = YeahMobiTask('1', 'task001', ','.join([str(i) for i in range(142)]), False)
-    ymt.runTask()
+    taskCenter()
 
 
 
