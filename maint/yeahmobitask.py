@@ -46,19 +46,19 @@ class YeahMobiTask(object):
     def getCaseList(self):
         self.caseList = list()
         getCaseSql = 'select casename, start_time_of_case, end_time_of_case, casecontent from ym_case where caseid = {0}'
-        self.logger.info('get case success')
         for caseid in self.caseidlist.split(','):
             caseMap = dict()
-            caseinfo = self.dber.getRecord(getCaseSql.format(caseid))
+            caseinfo = self.dber.getRecord(getCaseSql.format(caseid), False)
             try:
                 caseMap['caseid'] = caseid
                 caseMap['casename'] = caseinfo[0]
                 caseMap['start_time_of_case'] = caseinfo[1]
                 caseMap['end_time_of_case'] = caseinfo[2]
-                caseMap['casecontent'] = caseinfo[3]
+                caseMap['casecontent'] = caseinfo[3].strip()
                 self.caseList.append(caseMap)
             except Exception as ex:
                 self.logger.error(ex)
+        self.logger.info('get yeahmobi report case success')
 
     def runTask(self):
         self.logger.info('get task success. taskid: {0} task name: {1} caseid of task: {2}'.format(self.taskid, self.taskname, self.caseidlist))
@@ -66,7 +66,7 @@ class YeahMobiTask(object):
             caseid = case.get('caseid')
             casename = case.get('casename')
             case = case.get('casecontent') % (int(case.get('start_time_of_case')), int(case.get('end_time_of_case')))
-            self.logger.info('get case: {0} query content: {1}'.format(casename, case))
+            self.logger.info('get druid case: {0} {1}'.format(casename, case))
             resultInfo = self.dter.runCase(case)
             isPass = resultInfo.get('isPass')
             druid_result = resultInfo['druid_result']
@@ -77,7 +77,7 @@ class YeahMobiTask(object):
                 self.passcount += 1
             else:
                 self.failcount += 1
-            syncDetailResultSql = "insert into ym_detail_result(taskid, caseid, druid_result, druid_query, mysql_query, mysql_result, run_time) values ({0}, {1}, '{2}', '{3}', '{4}', '{5}', '{6}')".format(
+            syncDetailResultSql = """insert into ym_detail_result(taskid, caseid, druid_result, druid_query, mysql_query, mysql_result, run_time) values ({0}, {1}, "{2}", '{3}', "{4}", "{5}", "{6}")""".format(
                 self.taskid, caseid, druid_result, druid_query, mysql_query, mysql_result, get_now()
             )
             self.dber.executSql(syncDetailResultSql)

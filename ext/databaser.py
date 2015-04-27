@@ -32,9 +32,10 @@ class Dber(object):
                 insertSql = sync_sql.format(database.get('detail_table'), getVaildColumn(column), unicode2str(result))
                 self.executSql(insertSql)
                 self.logger.info('sync druid detail record to mysql success')
+            self.setCommit()
         else:
             self.logger.error("get druid result is not a list, exit")
-        self.setCommit()
+
 
     def getCase(self, index):
         try:
@@ -47,24 +48,25 @@ class Dber(object):
     def executSql(self, sql):
         try:
             if self.conn:
-                result = self.cur.execute(sql)
-            return result
+                status = self.cur.execute(sql)
+            return status
         except Exception as ex:
             self.logger.error("execute sql err: {0}".format(ex))
 
     def setColse(self):
-        self.cur.close()
         self.conn.close()
 
     def setCommit(self):
-        self.conn.commit()
         self.cur.close()
+        self.conn.commit()
 
     def getRecord(self, sql, isAll = True):
-        if self.conn:
-            executeStatus = self.executSql(sql)
-            if executeStatus:
-                if isAll:
-                    return self.cur.fetchall()
-                else:
-                    return self.cur.fetchone()
+
+        if not self.conn:
+            self.setConnection()
+        executeStatus = self.executSql(sql)
+        if executeStatus:
+            if isAll:
+                return self.cur.fetchall()
+            else:
+                return self.cur.fetchone()

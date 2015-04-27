@@ -19,30 +19,44 @@ class DataTester(object):
 
     def runCase(self, case):
 
-        query = self.converter.getSQL(case)
-        self.logger.info('get sql: {0}'.format(query))
+
+        druidMapList = list()
         druidResult = getResponse(case)
-        try:
-            mysqlResult = list(self.dber.getRecord(query))
-            print mysqlResult
-        except TypeError as ex:
-            raise
 
         druidData = json.loads(druidResult).get('data').get('data')
-        column = druidData[0]
-        druidMapList = list()
-        for value in druidData[1:]:
-            druidMapList.append(dict(zip(column, value)))
+        if len(druidData) == 1:  # empty set
+            pass
+        else:
+            column = druidData[0]
+            for value in druidData[1:]:
+                druidMapList.append(dict(zip(column, value)))
+        self.logger.info('get druid result: {0}'.format(druidMapList))
 
+        sqlquery = self.converter.getSQL(case)
+        self.logger.info('get sql case: {0}'.format(sqlquery))
+        mysqlResult = list()
         mysqlMapList = list()
-        for mysqlValue in mysqlResult:
-            mysqlValueList = list(mysqlValue)
-            for i in range(len(mysqlValueList) - len(column)):
-                mysqlValueList.pop()
-            mysqlMapList.append(dict(zip(column, mysqlValueList)))
+        try:
+            mysqlResult = list(self.dber.getRecord(sqlquery))
+        except TypeError as ex:
+            pass
+
+        if mysqlResult:
+            for mysqlValue in mysqlResult:
+                mysqlValueList = list(mysqlValue)
+                for i in range(len(mysqlValueList) - len(column)):
+                    mysqlValueList.pop()
+                mysqlMapList.append(dict(zip(column, mysqlValueList)))
+        else:
+            pass
+        self.logger.info('get mysql result: {0}'.format(mysqlMapList))
+
         self.resultInfo['druid_result'] = druidMapList
         self.resultInfo['druid_query'] = case
-        self.resultInfo['mysql_query'] = query
+        self.resultInfo['mysql_query'] = sqlquery
         self.resultInfo['mysql_result'] = mysqlMapList
-        self.resultInfo['isPass'] = (JsonDecorator(druidMapList) == JsonDecorator(mysqlMapList))
+        if druidMapList == list() and mysqlMapList == list():
+            self.resultInfo['isPass'] = True
+        else:
+            self.resultInfo['isPass'] = (JsonDecorator(druidMapList) == JsonDecorator(mysqlMapList))
         return self.resultInfo
