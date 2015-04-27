@@ -75,10 +75,12 @@ class YeahMobiTask(object):
             mysql_result = resultInfo['mysql_result']
             if isPass:
                 self.passcount += 1
+                detailResult = "success"
             else:
                 self.failcount += 1
-            syncDetailResultSql = """insert into ym_detail_result(taskid, caseid, druid_result, druid_query, mysql_query, mysql_result, run_time) values ({0}, {1}, "{2}", '{3}', "{4}", "{5}", "{6}")""".format(
-                self.taskid, caseid, druid_result, druid_query, mysql_query, mysql_result, get_now()
+                detailResult = "failed"
+            syncDetailResultSql = """insert into ym_detail_result(taskid, caseid, result, druid_result, druid_query, mysql_query, mysql_result, run_time) values ({0}, {1}, "{2}", "{3}", '{4}', "{5}", "{6}", "{7}")""".format(
+                self.taskid, caseid, detailResult, druid_result, druid_query, mysql_query, mysql_result, get_now()
             )
             self.dber.executSql(syncDetailResultSql)
         if self.failcount == 0 and self.passcount != 0:
