@@ -20,8 +20,8 @@ def get_now():
     return time.strftime('%Y-%m-%dT%H:%M:%S',time.localtime(time.time()))
 
 def get_unixtime_range():
-     start = int(time.mktime(time.strptime(get_now(), '%Y-%m-%dT%H:%M:%S'))) - 300
-     end = start + 28800
+     start = int(time.mktime(time.strptime(get_now(), '%Y-%m-%dT%H:%M:%S')))
+     end = start + unix_end_offset_seconds
      return start, end
 
 def datetime_timestamp(datetime):
