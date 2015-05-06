@@ -17,16 +17,14 @@ class Tasker(object):
         if self.queryNow:
             start, end = get_unixtime_range()
             self.dper.sync(start, end)
-            self.updateCase(self.caseidlist)
+            self.updateCase(start, end, self.caseidlist)
         self.taskid = taskid
         self.taskname = taskname
         self.passcount = 0
         self.failcount = 0
         self.getCaseList()
 
-    def updateCase(self, caseidList):
-        unix_range = get_unixtime_range()
-        start, end = unix_range[0], unix_range[1]
+    def updateCase(self, start, end, caseidList):
         for caseid in caseidList:
             updateCaseSql = 'update ym_case set start_time_of_case="{0}", end_time_of_case="{1}" where caseid = {2}'.format(start, end, caseid)
             self.dber.executSql(updateCaseSql)
