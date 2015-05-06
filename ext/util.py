@@ -20,7 +20,7 @@ def get_now():
     return time.strftime('%Y-%m-%dT%H:%M:%S',time.localtime(time.time()))
 
 def get_unixtime_range():
-     start = int(time.mktime(time.strptime(get_now(), '%Y-%m-%dT%H:%M:%S')))
+     start = int(time.mktime(time.strptime(get_now(), '%Y-%m-%dT%H:%M:%S'))) - 120
      end = start + unix_end_offset_seconds
      return start, end
 
