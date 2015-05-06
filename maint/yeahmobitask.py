@@ -12,7 +12,7 @@ class Tasker(object):
         self.dter = DataTester()
         self.dper = SyncData()
         self.logger = getLogger()
-        self.caseidlist = caseidlist
+        self.caseidlist = caseidlist.split(',')
         self.queryNow = queryNow
         if self.queryNow:
             start, end = get_unixtime_range()
@@ -43,7 +43,7 @@ class Tasker(object):
     def getCaseList(self):
         self.caseList = list()
         getCaseSql = 'select casename, start_time_of_case, end_time_of_case, casecontent from ym_case where caseid = {0}'
-        for caseid in self.caseidlist.split(','):
+        for caseid in self.caseidlist:
             caseMap = dict()
             caseinfo = self.dber.getRecord(getCaseSql.format(caseid), False)
             try:
