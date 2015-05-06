@@ -47,7 +47,6 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list):
     try:
         r = requests.get(geturl)
         data = json.loads(r.text).get('data').get('data')
-        logger.info('get druid detail result success')
         return data[0], data[1:]
     except Exception as ex:
         logger.error('get druid detail result failed: {0}'.format(ex))
