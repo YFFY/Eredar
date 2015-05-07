@@ -27,8 +27,9 @@ class DataTester(object):
             if len(druidData) == 1:  # empty set
                 pass
             else:
+                key = druidData[0]
                 for value in druidData[1:]:
-                    druidMapList.append(dict(zip(column, value)))
+                    druidMapList.append(dict(zip(key, value)))
             self.logger.info('get druid result: {0}'.format(druidMapList))
         except Exception as ex:
             self.logger.error('get druid result failed, get: {0}'.format(druidResult))

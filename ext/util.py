@@ -43,7 +43,6 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list):
     if "'" in param:
         param = param.replace("'",'"')
     geturl = query_url + param
-    logger.info("druid query: {0}".format(geturl))
     try:
         r = requests.get(geturl)
         data = json.loads(r.text).get('data').get('data')

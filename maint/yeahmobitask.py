@@ -81,6 +81,7 @@ class Tasker(object):
                 self.taskid, caseid, detailResult, druid_result, druid_query, mysql_query, mysql_result, get_now(), taskflag
             )
             self.dber.executSql(syncDetailResultSql)
+            time.sleep(5)
         if self.failcount == 0 and self.passcount != 0:
             taskResult = 'success'
         else:
