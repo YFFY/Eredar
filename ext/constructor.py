@@ -34,7 +34,6 @@ class Constructor(object):
                     try:
                         r = requests.get(conv_url)
                         if r.text == 'success=true;conversioned':
-                            self.logger.info('.')
                             self.transactionidList.append(transaction_id)
                         else:
                             pass
@@ -44,9 +43,9 @@ class Constructor(object):
 
     @property
     def getTranasctionId(self):
-        self.logger.info('construction data begin')
+        self.logger.info('set click and conversion data begin')
         self.setClickConv
-        self.logger.info('construction data end')
+        self.logger.info('set click and conversion data end')
         return self.transactionidList
 
 if __name__ == '__main__':

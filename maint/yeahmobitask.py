@@ -29,7 +29,7 @@ class Tasker(object):
             updateCaseSql = 'update ym_case set start_time_of_case="{0}", end_time_of_case="{1}" where caseid = {2}'.format(start, end, caseid)
             self.dber.executSql(updateCaseSql)
             self.dber.setCommit()
-            self.logger.info('update case success, caseid :{0}'.format(caseid))
+        self.logger.info('update case success, change start and end time of case to now')
 
     def getTaskId(self):
         return self.taskid
