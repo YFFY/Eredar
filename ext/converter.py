@@ -14,6 +14,7 @@ class QueryConverter(object):
         pass
 
     def getSQL(self, druidQuery):
+        columnList = list()
         parser = QueryParser(druidQuery)
         sql_list = list()
         sql_list.append("select")
@@ -27,15 +28,19 @@ class QueryConverter(object):
 
         for group in group_data:
             sql_list.append(group)
+            columnList.append(group)
             sql_list.append(',')
 
         for data in parser_data:
             sql_list.append(DATAMAP.get(data).get("formula"))
+            columnList.append(data)
             sql_list.append(',')
 
         for filterkey in filterKeys:
-            sql_list.append(filterkey)
-            sql_list.append(',')
+            if filterkey not in sql_list:
+                sql_list.append(filterkey)
+                columnList.append(filterkey)
+                sql_list.append(',')
 
         sql_list.pop()
 
@@ -96,7 +101,7 @@ class QueryConverter(object):
             sql_list.append(str((page+1) * size))
         else:
             sql_list.append(str((page+1) * size))
-        return ' '.join(sql_list)
+        return columnList, ' '.join(sql_list)
 
 if __name__ == '__main__':
-    print QueryConverter().getSQL({"filters":{"$and":{"week":{"$eq":"01-3"}}},"sort":[{"orderBy":"conversion","order":-1}],"data":["click","conversion"],"group":["offer_id","aff_manager","week"],"settings":{"return_format":"json","data_source":"ymds_druid_datasource","report_id":"8631614495385992522","pagination":{"page":0,"size":1000000},"time":{"start":1430105882,"end":1430134682,"timezone":0}}})
+    print QueryConverter().getSQL({"filters":{"$and":{"year":{"$eq":"2015"}}},"sort":[{"orderBy":"conversion","order":-1}],"data":["click","conversion"],"group":["offer_id","aff_manager","year"],"settings":{"return_format":"json","data_source":"ymds_druid_datasource","report_id":"8631614495385992522","pagination":{"page":0,"size":1000000},"time":{"start":1430964811,"end":1430965111,"timezone":0}}})
