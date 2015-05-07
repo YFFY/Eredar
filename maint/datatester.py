@@ -27,14 +27,13 @@ class DataTester(object):
             if len(druidData) == 1:  # empty set
                 pass
             else:
-                column = druidData[0]
                 for value in druidData[1:]:
                     druidMapList.append(dict(zip(column, value)))
             self.logger.info('get druid result: {0}'.format(druidMapList))
         except Exception as ex:
             self.logger.error('get druid result failed, get: {0}'.format(druidResult))
 
-        sqlquery = self.converter.getSQL(case)
+        column, sqlquery = self.converter.getSQL(case)
         self.logger.info('get sql case: {0}'.format(sqlquery))
         mysqlResult = list()
         mysqlMapList = list()
@@ -46,12 +45,6 @@ class DataTester(object):
         if mysqlResult:
             for mysqlValue in mysqlResult:
                 mysqlValueList = list(mysqlValue)
-                try:
-                    for i in range(len(mysqlValueList) - len(column)):
-                        mysqlValueList.pop()
-                except UnboundLocalError as err:
-                    self.logger.error("get column offset failed, may be get druid result failed")
-                    return self.resultInfo
                 mysqlMapList.append(dict(zip(column, mysqlValueList)))
         else:
             pass
