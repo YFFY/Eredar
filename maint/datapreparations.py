@@ -14,7 +14,7 @@ class SyncData(object):
 
     def sync(self, start_time, end_time):
         transactionid_list = self.ymconstructor.getTranasctionId
-        time.sleep(5)
+        time.sleep(timewaitquerydetail)
         if transactionid_list:
             column, druidResult = getDruidDetailResult(start_time, end_time, transactionid_list)
             if druidResult:
