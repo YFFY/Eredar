@@ -49,7 +49,7 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list):
         if len(data[1:]) == len(offer_aff_combination) * cycletimes:
             logger.info('get detail result success, druid detail data count equal to (offer_aff_combination * cycletimes)')
         else:
-            logger.info('get detail result failed, druid detail data count not equal to (offer_aff_combination * cycletimes)')
+            logger.error('get detail result failed, druid detail data count not equal to (offer_aff_combination * cycletimes)')
             sys.exit()
         return data[0], data[1:]
     except Exception as ex:
