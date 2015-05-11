@@ -129,7 +129,7 @@ sync_sql = "insert into {0}{1} values {2}"
 
 # 数据库配置
 database = {
-    "host":"172.20.0.164",
+    "host":"172.20.0.123",
     "port":3306,
     "user":"robin",
     "password":"111111",
