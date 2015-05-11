@@ -23,7 +23,7 @@ class Constructor(object):
                 click_url = t.substitute({"offerid":offer_id, "affid":aff_id})
                 try:
                     r = requests.get(click_url, headers=headers, allow_redirects=False)
-                    if r.status_code != 200:
+                    if r.status_code != 302:
                         self.logger.error('send click data get a error response code: [{0}]'.format(r.status_code))
                         sys.exit()
                 except Exception as ex:
