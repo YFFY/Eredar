@@ -50,7 +50,7 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list):
         r = requests.get(geturl)
         data = json.loads(r.text).get('data').get('data')
         logger.info('druid detail data count: {0}'.format(len(data[1:])))
-        logger.info('expect detail data count: {0}'.format(len(offer_aff_combination) * (cycletimes+1)))
+        logger.info('expect detail data count: {0}'.format(len(offer_aff_combination) * cycletimes * 2 ))
         if len(data[1:]) == len(offer_aff_combination) * (cycletimes+1):
             logger.info('get detail result success, druid detail data count equal to (offer_aff_combination * cycletimes)')
         else:
