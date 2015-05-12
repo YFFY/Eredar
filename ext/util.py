@@ -43,7 +43,6 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list):
     if "'" in param:
         param = param.replace("'",'"')
     geturl = query_url + param
-    logger.info('detail query: {0}'.format(geturl))
     time.sleep(timewaitquerydetail)
     logging.info('wait {0} seconds that flow data to druid'.format(timewaitquerydetail))
     try:
