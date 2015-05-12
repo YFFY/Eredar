@@ -141,10 +141,11 @@ database = {
 
 
 # 跳转数据配置
-offer_aff_combination = [(200002, 90010409), (200044,90010409), (200045,90010409),
-                         (200105, 90010409), (200106,90010409)]
-click_url_template = "http://172.30.10.146:8080/trace?offer_id=$offerid&aff_id=$affid&aff_sub=affsub1&aff_sub2=affsub2&aff_sub3=affsub3&aff_sub4=affsub4&aff_sub5=affsub5&aff_sub6=affsub6&aff_sub7=affsub7&aff_sub8=affsub8"
-conv_url_template = "http://172.30.10.146:8080/conv?transaction_id=$transactionid&adv_sub=advsub1&adv_sub2=advsub2&adv_sub3=advsub3&adv_sub4=advsub4&adv_sub5=advsub5&adv_sub6=advsub6&adv_sub7=advsub7&adv_sub8=advsub8"
+offer_aff_combination = [(200002, 90010409), (200044,90010439), (200045,90010466),
+                         (200105, 90010652), (200106,90010409), (200001,90010407),
+                         (200008, 90010605)]
+click_url_template = "http://172.30.10.207:8080/trace?offer_id=$offerid&aff_id=$affid&aff_sub=affsub1&aff_sub2=affsub2&aff_sub3=affsub3&aff_sub4=affsub4&aff_sub5=affsub5&aff_sub6=affsub6&aff_sub7=affsub7&aff_sub8=affsub8"
+conv_url_template = "http://172.30.10.208:8080/conv?transaction_id=$transactionid&adv_sub=advsub1&adv_sub2=advsub2&adv_sub3=advsub3&adv_sub4=advsub4&adv_sub5=advsub5&adv_sub6=advsub6&adv_sub7=advsub7&adv_sub8=advsub8"
 
 
 headers = {"Host": "net.tutsplus.com",
@@ -162,7 +163,7 @@ cycletimes = 1       #  data sum = (cycletimes+1) * len(offer_aff_combination)
 
 
 # Druid明细查询
-query_url = 'http://172.20.0.123:8080/impala/report?report_param='
+query_url = 'http://172.20.0.164:8080/impala/report?report_param='
 param_template = '{"settings":{"report_id":"111111111111","process_type":"druid","return_format":"json","data_source":"ymds_druid_datasource","time":{"start":%d,"end":%d,"timezone":0},"pagination":{"size":100000,"page":0}},"data":["profit","epc","conversion","arpa","click","acpa","cost","cr","rpc","cpc","unique_click","revenue","rows","conversion2"],"filters":{"$and":{"transaction_id":{"$in":%s}}},"group":["aff_id", "aff_manager", "aff_sub1", "aff_sub2", "aff_sub3", "aff_sub4", "aff_sub5", "aff_sub6", "aff_sub7", "aff_sub8", "adv_id", "adv_manager", "adv_sub1", "adv_sub2", "adv_sub3", "adv_sub4", "adv_sub5", "adv_sub6", "adv_sub7", "adv_sub8", "offer_id", "rpa", "cpa", "ref_track", "ref_track_site", "click_ip", "conv_ip", "transaction_id", "click_time", "conv_time", "user_agent", "browser", "device_brand", "device_model", "device_os", "device_type", "country", "time_stamp", "log_tye", "visitor_id", "x_forwarded_for", "state", "city", "isp", "mobile_brand", "platform_id", "screen_width", "screen_height", "conversions", "track_type", "session_id", "visitor_node_id", "expiration_date", "is_unique_click", "gcid", "gcname", "browser_name", "device_brand_name", "device_model_name", "platform_name", "device_type_name", "os_ver_name", "os_ver", "datasource", "source", "request_url", "matched_format", "status", "message", "year", "month", "week", "day", "hour"]}'
 unix_end_offset_seconds = 300
 timewaitquerydetail = 180  # wait data flow to druid
