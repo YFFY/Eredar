@@ -158,7 +158,7 @@ headers = {"Host": "net.tutsplus.com",
            "Cookie": "PHPSESSID=r2t5uvjq435r4q7ib3vtdjq120",
            "Pragma": "no-cache",
            "Cache-Control": "no-cache"}
-cycletimes = 1       #  data sum = cycletimes * len(offer_aff_combination)
+cycletimes = 1       #  data sum = (cycletimes+1) * len(offer_aff_combination)
 
 
 # Druid明细查询

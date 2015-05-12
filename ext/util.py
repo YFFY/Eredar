@@ -83,6 +83,12 @@ def unicode2str(unicodeList):
                 strList.append(u.encode())
     return tuple(strList)
 
+def getStrList(valueList):
+    strValueList = list()
+    for v in valueList:
+        strValueList.append(str(v))
+    return strValueList
+
 def getVaildColumn(column):
     if isinstance(column, list):
         columnString = ','.join(column)
