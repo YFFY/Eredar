@@ -45,6 +45,7 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list):
     geturl = query_url + param
     logger.info('detail query: {0}'.format(geturl))
     time.sleep(timewaitquerydetail)
+    logging.info('wait {0} seconds that flow data to druid'.format(timewaitquerydetail))
     try:
         r = requests.get(geturl)
         data = json.loads(r.text).get('data').get('data')
