@@ -141,11 +141,10 @@ database = {
 
 
 # 跳转数据配置
-offer_aff_combination = [(200002, 90010409), (200044,90010439), (200045,90010466),
-                         (200105, 90010652), (200106,90010409), (200001,90010407),
-                         (200008, 90010605)]
-click_url_template = "http://172.30.10.207:8080/trace?offer_id=$offerid&aff_id=$affid&aff_sub=affsub1&aff_sub2=affsub2&aff_sub3=affsub3&aff_sub4=affsub4&aff_sub5=affsub5&aff_sub6=affsub6&aff_sub7=affsub7&aff_sub8=affsub8"
-conv_url_template = "http://172.30.10.208:8080/conv?transaction_id=$transactionid&adv_sub=advsub1&adv_sub2=advsub2&adv_sub3=advsub3&adv_sub4=advsub4&adv_sub5=advsub5&adv_sub6=advsub6&adv_sub7=advsub7&adv_sub8=advsub8"
+offer_aff_combination = [(200044, 90010409), (200045,90010409), (200105,90010409),
+                         (200106, 90010409), (200002,90010409)]
+click_url_template = "http://172.30.10.207:8080/ymtrace/trace?offer_id=$offerid&aff_id=$affid&aff_sub=affsub1&aff_sub2=affsub2&aff_sub3=affsub3&aff_sub4=affsub4&aff_sub5=affsub5&aff_sub6=affsub6&aff_sub7=affsub7&aff_sub8=affsub8"
+conv_url_template = "http://172.30.10.207:8080/ymtrace/conv?transaction_id=$transactionid&adv_sub=advsub1&adv_sub2=advsub2&adv_sub3=advsub3&adv_sub4=advsub4&adv_sub5=advsub5&adv_sub6=advsub6&adv_sub7=advsub7&adv_sub8=advsub8"
 
 
 headers = {"Host": "net.tutsplus.com",
