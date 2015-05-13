@@ -25,6 +25,7 @@ class QueryConverter(object):
         filterKeys = filter_items.keys()
         order_items = parser.get_sort()
         pagination = parser.get_pagination()
+        topn_items = parser.get_topn()
 
         for group in group_data:
             sql_list.append(group)
@@ -93,17 +94,24 @@ class QueryConverter(object):
                 sql_list.append(',')
             sql_list.pop()
 
-        sql_list.append("limit")
-        offset = pagination.get('offset', 0)
-        page = pagination.get('page')
-        size = pagination.get('size')
-        if page != 0:
-            sql_list.append(str(page * size))
-            sql_list.append(',')
-            sql_list.append(str((page+1) * size))
+        if topn_items:
+            sql_list.append("order by")
+            sql_list.append(topn_items.get("metricvalue"))
+            sql_list.append("desc")
+            sql_list.append("limit")
+            sql_list.append(str(topn_items.get("threshold")))
         else:
-            sql_list.append(str((page+1) * size))
+            sql_list.append("limit")
+            offset = pagination.get('offset', 0)
+            page = pagination.get('page')
+            size = pagination.get('size')
+            if page != 0:
+                sql_list.append(str(page * size))
+                sql_list.append(',')
+                sql_list.append(str((page+1) * size))
+            else:
+                sql_list.append(str((page+1) * size))
         return columnList, ' '.join(sql_list)
 
 if __name__ == '__main__':
-    print QueryConverter().getSQL({"filters":{"$and":{"click":{"$lt":40}}},"sort":[{"orderBy":"conversion","order":-1}],"data":["click","conversion"],"group":["offer_id","aff_manager"],"settings":{"return_format":"json","data_source":"ymds_druid_datasource","report_id":"8631614495385992522","pagination":{"page":0,"size":1000000},"time":{"start":1431426993,"end":1431427293,"timezone":0}}})
+    print QueryConverter().getSQL({"filters":{"$and":{}},"topn":{"metricvalue":"click","threshold":1},"data":["click","conversion","cost"],"group":["offer_id"],"settings":{"return_format":"json","data_source":"ymds_druid_datasource","report_id":"8631614495385992522","pagination":{"page":0,"size":100},"time":{"start":1431484018,"end":1431484318,"timezone":0}}})
