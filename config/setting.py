@@ -146,14 +146,13 @@ offer_aff_combination = [(200044,90010409),
                          (200044,90010409),
                          (200044,90010409),
                          (200044,90010409),
-                         (200044,90010409),
-                         (200045,90010409),
-                         (200045,90010409),
-                         (200045,90010409),
-                         (200045,90010409),
                          (200105,90010409),
                          (200105,90010409),
                          (200105,90010409),
+                         (200105,90010409),
+                         (200045,90010409),
+                         (200045,90010409),
+                         (200045,90010409),
                          (200106,90010409),
                          (200106,90010409),
                          (200002,90010409)]
@@ -172,7 +171,7 @@ headers = {"Host": "net.tutsplus.com",
            "Cookie": "PHPSESSID=r2t5uvjq435r4q7ib3vtdjq120",
            "Pragma": "no-cache",
            "Cache-Control": "no-cache"}
-cycletimes = 2       #  data sum = (cycletimes+1) * len(offer_aff_combination)
+cycletimes = 1       #  data sum = (cycletimes+1) * len(offer_aff_combination)
 
 
 # Druid明细查询
