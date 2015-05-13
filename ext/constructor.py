@@ -26,6 +26,8 @@ class Constructor(object):
                     if r.status_code != 302:
                         self.logger.error('send click data get a error response code: [{0}]'.format(r.status_code))
                         sys.exit()
+                    else:
+                        self.logger.info('imitate click data success')
                 except Exception as ex:
                     traceback.print_exc()
                 else:
@@ -37,6 +39,7 @@ class Constructor(object):
                     try:
                         r = requests.get(conv_url)
                         if r.text == 'success=true;conversioned':
+                            self.logger.info('imitate conversion data success')
                             self.transactionidList.append(transaction_id)
                         else:
                             pass
