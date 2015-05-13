@@ -37,7 +37,9 @@ class QueryConverter(object):
             sql_list.append(',')
 
         for filterkey in filterKeys:
-            if filterkey not in sql_list:
+            if filterkey in parser_data or filterkey in group_data:
+                pass
+            else:
                 sql_list.append(filterkey)
                 columnList.append(filterkey)
                 sql_list.append(',')
@@ -104,4 +106,4 @@ class QueryConverter(object):
         return columnList, ' '.join(sql_list)
 
 if __name__ == '__main__':
-    print QueryConverter().getSQL({"filters":{"$and":{"year":{"$eq":"2015"}}},"sort":[{"orderBy":"conversion","order":-1}],"data":["click","conversion"],"group":["offer_id","aff_manager","year"],"settings":{"return_format":"json","data_source":"ymds_druid_datasource","report_id":"8631614495385992522","pagination":{"page":0,"size":1000000},"time":{"start":1430964811,"end":1430965111,"timezone":0}}})
+    print QueryConverter().getSQL({"filters":{"$and":{"click":{"$lt":40}}},"sort":[{"orderBy":"conversion","order":-1}],"data":["click","conversion"],"group":["offer_id","aff_manager"],"settings":{"return_format":"json","data_source":"ymds_druid_datasource","report_id":"8631614495385992522","pagination":{"page":0,"size":1000000},"time":{"start":1431426993,"end":1431427293,"timezone":0}}})
