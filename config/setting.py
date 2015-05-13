@@ -76,7 +76,7 @@ DATAMAP = {
   "cr" : {
     "alisa" : "cr",
     "name" : "(conversion/click)",
-    "formula" : "sum(conversion) / sum(click) as cr",
+    "formula" : "round(sum(conversion) / sum(click),1) as cr",
     "level" : 2,
     "precision" : 4
   },
