@@ -54,7 +54,7 @@ class Tasker(object):
                 caseMap['casecontent'] = caseinfo[3].strip()
                 self.caseList.append(caseMap)
             except Exception as ex:
-                self.logger.info('can not find caseid : {0} skip it'.format(caseid))
+                self.logger.info('can not find case by caseid : {0} skip it'.format(caseid))
         self.logger.info('get yeahmobi report case success')
 
     def runTask(self):
