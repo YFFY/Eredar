@@ -106,12 +106,12 @@ class QueryConverter(object):
             page = pagination.get('page')
             size = pagination.get('size')
             if page != 0:
-                sql_list.append(str(page * size))
+                sql_list.append(str(page + 1))
                 sql_list.append(',')
-                sql_list.append(str((page+1) * size - 1))
+                sql_list.append(str(size))
             else:
                 sql_list.append(str((page+1) * size))
         return columnList, ' '.join(sql_list)
 
 if __name__ == '__main__':
-    print QueryConverter().getSQL({"filters":{"$and":{}},"topn":{"metricvalue":"click","threshold":1},"data":["click","conversion","cost"],"group":["offer_id","aff_id"],"settings":{"return_format":"json","data_source":"ymds_druid_datasource","report_id":"8631614495385992522","pagination":{"page":0,"size":100},"time":{"start":23,"end":24,"timezone":0}}})
+    print QueryConverter().getSQL({"filters":{"$and":{}},"sort":[{"orderBy":"cost","order":1}],"data":["click","conversion","cost"],"group":["offer_id","aff_manager","adv_id"],"settings":{"return_format":"json","data_source":"ymds_druid_datasource","report_id":"8631614495385992522","pagination":{"page":1,"size":2},"time":{"start":232323,"end":34343,"timezone":0}}})
