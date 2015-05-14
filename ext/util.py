@@ -3,6 +3,8 @@
 
 import os
 import sys
+sys.path.append(os.path.split(os.path.abspath(sys.path[0]))[0])
+
 import time
 import json
 import traceback

@@ -2,6 +2,10 @@
 # --*-- coding:utf-8 --*--
 
 # 将druid 查询转化为 SQL
+import os
+import sys
+sys.path.append(os.path.split(os.path.abspath(sys.path[0]))[0])
+
 
 from ext.parser import QueryParser
 from config.setting import *

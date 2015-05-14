@@ -1,6 +1,11 @@
 #! /usr/bin/env python
 # --*-- coding:utf-8 --*--
 
+import os
+import sys
+sys.path.append(os.path.split(os.path.abspath(sys.path[0]))[0])
+
+
 #  构造跳转数据
 import string
 from random import randint
@@ -60,5 +65,4 @@ class Constructor(object):
         return self.datacount, self.transactionidList
 
 if __name__ == '__main__':
-    c = Constructor()
-    print c.getTranasctionId
+    pass

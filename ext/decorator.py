@@ -3,7 +3,6 @@
 
 # json比较类
 
-import json
 from decimal import *
 
 class JsonDecorator(object):
