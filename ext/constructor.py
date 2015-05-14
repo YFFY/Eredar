@@ -28,6 +28,7 @@ class Constructor(object):
                         self.logger.error('send click data get a error response code: [{0}]'.format(r.status_code))
                         sys.exit()
                     else:
+                        self.transactionidList.append(transaction_id)
                         self.datacount += 1
                         self.logger.info('imitate click data success')
                 except Exception as ex:
@@ -44,7 +45,6 @@ class Constructor(object):
                             if r.text == 'success=true;conversioned':
                                 self.datacount += 1
                                 self.logger.info('imitate conversion data success')
-                                self.transactionidList.append(transaction_id)
                             else:
                                 pass
                         except Exception as ex:
