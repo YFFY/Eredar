@@ -43,8 +43,8 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list, realDataCoun
     if "'" in param:
         param = param.replace("'",'"')
     geturl = query_url + param
-    time.sleep(timewaitquerydetail)
     logging.info('wait {0} seconds that flow data to druid'.format(timewaitquerydetail))
+    time.sleep(timewaitquerydetail)
     try:
         r = requests.get(geturl)
         data = json.loads(r.text).get('data').get('data')
