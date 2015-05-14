@@ -28,7 +28,6 @@ class Constructor(object):
                         self.logger.error('send click data get a error response code: [{0}]'.format(r.status_code))
                         sys.exit()
                     else:
-                        self.transactionidList.append(transaction_id)
                         self.datacount += 1
                         self.logger.info('imitate click data success')
                 except Exception as ex:
@@ -36,6 +35,7 @@ class Constructor(object):
                 else:
                     jumpaddress = r.text
                     transaction_id = get_clickid(jumpaddress)
+                    self.transactionidList.append(transaction_id)
                     t = string.Template(conv_url_template)
                     conv_url = t.substitute({"transactionid":transaction_id})
                     time.sleep(randint(1,3))
