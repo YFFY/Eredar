@@ -37,7 +37,7 @@ def getLogger():
     logger = logging.getLogger("eredar")
     return logger
 
-def getDruidDetailResult(start_time, end_time, transaction_id_list):
+def getDruidDetailResult(start_time, end_time, transaction_id_list, realDataCount):
     logger = getLogger()
     param = param_template % (start_time, end_time, transaction_id_list)
     if "'" in param:
@@ -48,12 +48,8 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list):
     try:
         r = requests.get(geturl)
         data = json.loads(r.text).get('data').get('data')
-        logger.info('druid detail data count: {0}'.format(len(data[1:])))
-        logger.info('expect detail data count: {0}'.format(len(offer_aff_combination) * cycletimes * 2 ))
-        if len(data[1:]) == len(offer_aff_combination) * (cycletimes*2):
-            logger.info('get detail result success, druid detail data count equal to (offer_aff_combination * cycletimes*2)')
-        else:
-            logger.error('get detail result failed, druid detail data count not equal to (offer_aff_combination * cycletimes*2)')
+        if realDataCount != len(data[1:]):
+            logger.error('imitate data count: {0} != query detail data count: {1}'.format(realDataCount, len(data[1:])))
             sys.exit()
         return data[0], data[1:]
     except Exception as ex:

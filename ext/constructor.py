@@ -12,6 +12,7 @@ class Constructor(object):
 
     def __init__(self):
         self.transactionidList = list()
+        self.datacount = 0
         self.logger = getLogger()
 
     @property
@@ -27,6 +28,7 @@ class Constructor(object):
                         self.logger.error('send click data get a error response code: [{0}]'.format(r.status_code))
                         sys.exit()
                     else:
+                        self.datacount += 1
                         self.logger.info('imitate click data success')
                 except Exception as ex:
                     traceback.print_exc()
@@ -36,23 +38,26 @@ class Constructor(object):
                     t = string.Template(conv_url_template)
                     conv_url = t.substitute({"transactionid":transaction_id})
                     time.sleep(randint(1,3))
-                    try:
-                        r = requests.get(conv_url)
-                        if r.text == 'success=true;conversioned':
-                            self.logger.info('imitate conversion data success')
-                            self.transactionidList.append(transaction_id)
-                        else:
-                            pass
-                    except Exception as ex:
-                        self.logger.error('set conv data failed')
-
+                    if randint(1,5) % 2 == 0:  # 0.4% percent to mock conversion data
+                        try:
+                            r = requests.get(conv_url)
+                            if r.text == 'success=true;conversioned':
+                                self.datacount += 1
+                                self.logger.info('imitate conversion data success')
+                                self.transactionidList.append(transaction_id)
+                            else:
+                                pass
+                        except Exception as ex:
+                            self.logger.error('set conv data failed')
+                    else:
+                        pass
 
     @property
     def getTranasctionId(self):
         self.logger.info('set click and conversion data begin')
         self.setClickConv
         self.logger.info('set click and conversion data end')
-        return self.transactionidList
+        return self.datacount, self.transactionidList
 
 if __name__ == '__main__':
     c = Constructor()
