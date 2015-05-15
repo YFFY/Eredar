@@ -27,14 +27,14 @@ DATAMAP = {
   "profit" : {
     "alisa" : "profit",
     "name" : "(revenue-cost)",
-    "formula" : "(sum(revenue) - sum(cost)) as profit",
+    "formula" : "round(sum(revenue) - sum(cost), 3) as profit",
     "level" : 2,
     "precision" : 3
   },
   "epc" : {
     "alisa" : "epc",
     "name" : "(cost/click)",
-    "formula" : "sum(cost) / sum(click) as epc",
+    "formula" : "round(sum(cost) / sum(click),3) as epc",
     "level" : 2,
     "precision" : 3
   },
@@ -48,7 +48,7 @@ DATAMAP = {
   "arpa" : {
     "alisa" : "arpa",
     "name" : "(revenue/conversion)",
-    "formula" : "sum(revenue) / sum(conversion) as arpa",
+    "formula" : "round(sum(revenue) / sum(conversion),2) as arpa",
     "level" : 2,
     "precision" : 2
   },
@@ -62,7 +62,7 @@ DATAMAP = {
   "acpa" : {
     "alisa" : "acpa",
     "name" : "(cost/conversion)",
-    "formula" : "sum(cost) / sum(conversion) as acpa",
+    "formula" : "round(sum(cost) / sum(conversion),2) as acpa",
     "level" : 2,
     "precision" : 2
   },
@@ -76,21 +76,21 @@ DATAMAP = {
   "cr" : {
     "alisa" : "cr",
     "name" : "(conversion/click)",
-    "formula" : "round(sum(conversion) / sum(click),1) as cr",
+    "formula" : "round(sum(conversion) / sum(click),4) as cr",
     "level" : 2,
     "precision" : 4
   },
   "rpc" : {
     "alisa" : "rpc",
     "name" : "(revenue/click)",
-    "formula" : "sum(revenue) / sum(click) as rpc",
+    "formula" : "round(sum(revenue) / sum(click),3) as rpc",
     "level" : 2,
     "precision" : 3
   },
   "cpc" : {
     "alisa" : "cpc",
     "name" : "(cost/click)",
-    "formula" : "sum(cost) / sum(click) as cpc",
+    "formula" : "round(sum(cost) / sum(click),3) as cpc",
     "level" : 2,
     "precision" : 3
   },
