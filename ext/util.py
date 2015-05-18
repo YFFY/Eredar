@@ -5,6 +5,7 @@ import os
 import sys
 sys.path.append(os.path.split(os.path.abspath(sys.path[0]))[0])
 
+from datetime import datetime
 import time
 import json
 import traceback
@@ -87,10 +88,9 @@ def unicode2str(unicodeList):
 def getStrList(valueList):
     strValueList = list()
     for v in valueList:
-        if isinstance(v, int):
-            strValueList.append(str(v))
-        else:
-            strValueList.append(v)
+        if v == datetime.year:
+            v = str(v)
+        strValueList.append(v)
     return strValueList
 
 def getVaildColumn(column):
