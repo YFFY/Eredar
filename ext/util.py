@@ -87,7 +87,10 @@ def unicode2str(unicodeList):
 def getStrList(valueList):
     strValueList = list()
     for v in valueList:
-        strValueList.append(str(v))
+        if isinstance(v, int):
+            strValueList.append(str(v))
+        else:
+            strValueList.append(v)
     return strValueList
 
 def getVaildColumn(column):

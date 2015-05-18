@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # --*-- coding:utf-8 --*--
 
-from random import choice
+from random import choice, randint
 
 # SQL 配置
 OPERATEMAP = {
@@ -182,7 +182,7 @@ headers =  {"Host": "net.tutsplus.com",
            "Cookie": "PHPSESSID=r2t5uvjq435r4q7ib3vtdjq120",
            "Pragma": "no-cache",
            "Cache-Control": "no-cache"}
-cycletimes = 1       #  data sum = (cycletimes+1) * len(offer_aff_combination)
+cycletimes = randint(1, 5)
 
 
 # Druid明细查询
