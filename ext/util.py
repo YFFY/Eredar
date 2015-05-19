@@ -96,6 +96,8 @@ def getStrList(valueList):
         elif isinstance(v, Decimal):
             if str(v).find('.') != -1:
                 strValueList.append(float(v))
+            else:
+                strValueList.append(v)
         else:
             strValueList.append(v)
     return strValueList
