@@ -46,6 +46,7 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list, realDataCoun
     if "'" in param:
         param = param.replace("'",'"')
     geturl = query_url + param
+    isEnvOK()
     logger.info('get detail query param: {0}'.format(param))
     logger.info('wait {0} seconds that flow data to druid'.format(timewaitquerydetail))
     time.sleep(timewaitquerydetail)
@@ -108,6 +109,26 @@ def setCache():
     result = os.popen(routercmd).read()
     if result.startswith("successfully"):
         logger.info('reset router to druid success')
+
+def portScanner(machine):
+    import socket
+    sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sk.settimeout(1)
+    try:
+        sk.connect(machine)
+    except Exception as ex:
+        return ex
+    sk.close()
+    return "OK"
+
+def isEnvOK():
+    logger = getLogger()
+    for machine in machineList:
+        if portScanner(machine) != "OK":
+            logger.error('telnet {0} on port {1} failed'.format(machine[0], machine[1]))
+            sys.exit()
+        else:
+            logger.info('check envirment success')
 
 if __name__ == '__main__':
     print get_unixtime_range()

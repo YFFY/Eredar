@@ -200,5 +200,20 @@ detailresultinfo = {
     "mysql_query": ""
 }
 
+machineList = [
+    ('172.30.10.207', 8080),         # VN
+    ('172.30.10.209', 8080),         # CC
+    ('172.20.0.35', 18085),          # collector
+    ('172.20.0.174', 9092),          # kafka
+    ('172.20.0.186', 8080),          # realtime
+    ('172.20.0.189', 8080),          # realtime
+    ('172.20.0.190', 8080),          # coor
+    ('172.20.0.174', 2181),          # zk
+    ('172.20.0.186', 2181),          # zk
+    ('172.20.0.189', 2181),          # zk
+    ('172.20.0.164', 8080),          # realquery
+    ('172.20.0.190', 9092)           # h2
+]
+
 cachecmd = """'curl http://localhost:8080/impala/cache -X POST -H 'content-type: application/json' -d '{"enableL1":false,"enableL2":false,"clearL1":false,"clearL2":false,"maxCapacityL2":10003,"timeUnit":300}'"""
 routercmd = """curl http://127.0.0.1:8080/datasystem-druid-router/impala_platform -X POST -H 'content-type: text/plain'  -d '{"datasources":{"ymds_druid_datasource": "DRUID","ndpsearch":"IMPALA"}}'"""
