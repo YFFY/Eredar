@@ -46,6 +46,7 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list, realDataCoun
     if "'" in param:
         param = param.replace("'",'"')
     geturl = query_url + param
+    logging.info('get detail query param: {0}'.format(param))
     logging.info('wait {0} seconds that flow data to druid'.format(timewaitquerydetail))
     time.sleep(timewaitquerydetail)
     try:
@@ -88,9 +89,7 @@ def unicode2str(unicodeList):
 def getStrList(valueList):
     strValueList = list()
     for v in valueList:
-        if v == datetime.year:
-            v = str(v)
-        strValueList.append(v)
+        strValueList.append(str(v))
     return strValueList
 
 def getVaildColumn(column):
