@@ -90,7 +90,7 @@ def unicode2str(unicodeList):
 def getStrList(valueList):
     strValueList = list()
     for v in valueList:
-        if v == datetime.year:
+        if v == datetime.now().year:
             strValueList.append(str(v))
         else:
             strValueList.append(v)
@@ -127,8 +127,7 @@ def isEnvOK():
         if portScanner(machine) != "OK":
             logger.error('telnet {0} on port {1} failed'.format(machine[0], machine[1]))
             sys.exit()
-        else:
-            logger.info('check envirment success')
+    logger.info('check envirment success')
 
 if __name__ == '__main__':
     print get_unixtime_range()
