@@ -46,8 +46,8 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list, realDataCoun
     if "'" in param:
         param = param.replace("'",'"')
     geturl = query_url + param
-    logging.info('get detail query param: {0}'.format(param))
-    logging.info('wait {0} seconds that flow data to druid'.format(timewaitquerydetail))
+    logger.info('get detail query param: {0}'.format(param))
+    logger.info('wait {0} seconds that flow data to druid'.format(timewaitquerydetail))
     time.sleep(timewaitquerydetail)
     try:
         r = requests.get(geturl)
@@ -89,7 +89,10 @@ def unicode2str(unicodeList):
 def getStrList(valueList):
     strValueList = list()
     for v in valueList:
-        strValueList.append(str(v))
+        if v == datetime.year:
+            strValueList.append(str(v))
+        else:
+            strValueList.append(v)
     return strValueList
 
 def getVaildColumn(column):
@@ -97,6 +100,14 @@ def getVaildColumn(column):
         columnString = ','.join(column)
     return '({0})'.format(columnString)
 
+def setCache():
+    logger = getLogger()
+    result = os.popen(cachecmd).read()
+    if result.startswith("success"):
+        logger.info('reset l1 cache and l2 cache false success')
+    result = os.popen(routercmd).read()
+    if result.startswith("successfully"):
+        logger.info('reset router to druid success')
 
 if __name__ == '__main__':
     print get_unixtime_range()

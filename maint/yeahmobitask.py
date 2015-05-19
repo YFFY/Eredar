@@ -62,6 +62,7 @@ class Tasker(object):
         self.logger.info('get yeahmobi report case success')
 
     def runTask(self):
+        setCache()
         self.logger.info('get task success. taskid: {0} task name: {1} caseid of task: {2}'.format(self.taskid, self.taskname, self.caseidlist))
         taskflag = getTaskFlag()
         for case in self.caseList:
