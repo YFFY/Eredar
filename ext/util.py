@@ -13,6 +13,7 @@ from bs4 import BeautifulSoup
 import requests
 import logging
 import logging.config
+from decimal import Decimal
 from config.setting import *
 
 
@@ -92,6 +93,9 @@ def getStrList(valueList):
     for v in valueList:
         if v == datetime.now().year:
             strValueList.append(str(v))
+        elif isinstance(v, Decimal):
+            if str(v).find('.') != -1:
+                strValueList.append(float(v))
         else:
             strValueList.append(v)
     return strValueList
@@ -128,6 +132,3 @@ def isEnvOK():
             logger.error('telnet {0} on port {1} failed'.format(machine[0], machine[1]))
             sys.exit()
     logger.info('check envirment success')
-
-if __name__ == '__main__':
-    print get_unixtime_range()

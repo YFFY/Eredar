@@ -19,7 +19,9 @@ class JsonDecorator(object):
                 return False
             else:
                 for thisData in self.data:
-                    for otherData in other.data:
-                        if thisData != otherData:
-                            return False
+                    if thisData not in other.data:
+                        return False
+                for otherData in other.data:
+                    if otherData not in self.data:
+                        return False
                 return True
