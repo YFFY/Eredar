@@ -88,10 +88,18 @@ def unicode2str(unicodeList):
                 strList.append(u.encode())
     return tuple(strList)
 
+
+def getUtcHour():
+    currentHour = datetime.now().hour
+    if currentHour >= 8:
+        return currentHour - 8
+    else:
+        return 16 + currentHour
+
 def getStrList(valueList):
     strValueList = list()
     for v in valueList:
-        if v == datetime.now().year or v == datetime.now().hour:
+        if v == datetime.now().year or v == getUtcHour():
             strValueList.append(str(v))
         elif isinstance(v, Decimal):
             if str(v).find('.') != -1:
