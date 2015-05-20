@@ -127,7 +127,7 @@ def setCache():
 def portScanner(machine):
     import socket
     sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sk.settimeout(1)
+    sk.settimeout(10)
     try:
         sk.connect(machine)
     except Exception as ex:
