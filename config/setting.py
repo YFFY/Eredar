@@ -215,5 +215,5 @@ machineList = [
     ('172.20.0.190', 9092)           # h2
 ]
 
-cachecmd = """'curl http://172.20.0.164:8080/impala/cache -X POST -H 'content-type: application/json' -d '{"enableL1":false,"enableL2":false,"clearL1":false,"clearL2":false,"maxCapacityL2":10003,"timeUnit":300}'"""
+cachecmd = """curl http://172.20.0.164:8080/impala/cache -X POST -H 'content-type: application/json' -d '{"enableL1":false,"enableL2":false,"clearL1":false,"clearL2":false,"maxCapacityL2":10003,"timeUnit":300}"""
 routercmd = """curl http://172.20.0.51:8080/datasystem-druid-router/impala_platform -X POST -H 'content-type: text/plain'  -d '{"datasources":{"ymds_druid_datasource": "DRUID","ndpsearch":"IMPALA"}}'"""
