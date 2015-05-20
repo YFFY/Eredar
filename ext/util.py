@@ -91,7 +91,7 @@ def unicode2str(unicodeList):
 def getStrList(valueList):
     strValueList = list()
     for v in valueList:
-        if v == datetime.now().year or v == (datetime.now().hour + 8):
+        if v == datetime.now().year or v == datetime.now().hour:
             strValueList.append(str(v))
         elif isinstance(v, Decimal):
             if str(v).find('.') != -1:
