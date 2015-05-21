@@ -44,7 +44,7 @@ class Constructor(object):
                     t = string.Template(conv_url_template)
                     conv_url = t.substitute({"transactionid":transaction_id})
                     time.sleep(randint(1,3))
-                    if randint(1,5) % 2 == 0:  # 0.4% percent to mock conversion data
+                    if randint(2,2) % 2 == 0:  # 100% percent to mock conversion data
                         try:
                             r = requests.get(conv_url)
                             if r.text == 'success=true;conversioned':
