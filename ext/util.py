@@ -17,19 +17,15 @@ from decimal import Decimal
 from config.setting import *
 
 
-def get_datatime(value):
-    return time.strftime(TIME_FORMAT, time.localtime(value))
-
-def get_now():
-    return time.strftime('%Y-%m-%dT%H:%M:%S',time.localtime(time.time()))
+get_datatime = lambda x : time.strftime(TIME_FORMAT, time.localtime(x))
+get_now = lambda : time.strftime('%Y-%m-%dT%H:%M:%S',time.localtime(time.time()))
+datetime_timestamp = lambda x : int(time.mktime(time.strptime(x, '%Y-%m-%d %H:%M:%S')))
+getTaskFlag = lambda : 'tf{0}'.format(int(time.time()))
 
 def get_unixtime_range():
      start = int(time.mktime(time.strptime(get_now(), '%Y-%m-%dT%H:%M:%S'))) - 120
      end = start + unix_end_offset_seconds
      return start, end
-
-def datetime_timestamp(datetime):
-    return int(time.mktime(time.strptime(datetime, '%Y-%m-%d %H:%M:%S')))
 
 def get_clickid(content):
     soup = BeautifulSoup(content)
@@ -75,8 +71,6 @@ def getResponse(param):
     else:
         return r.text
 
-def getTaskFlag():
-    return 'tf{0}'.format(int(time.time()))
 
 def unicode2str(unicodeList):
     strList = list()
