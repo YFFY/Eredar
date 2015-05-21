@@ -182,7 +182,7 @@ headers =  {"Host": "net.tutsplus.com",
            "Cookie": "PHPSESSID=r2t5uvjq435r4q7ib3vtdjq120",
            "Pragma": "no-cache",
            "Cache-Control": "no-cache"}
-cycletimes = randint(1, 3)
+cycletimes = 1
 
 
 # Druid明细查询
