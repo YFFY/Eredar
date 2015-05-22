@@ -63,11 +63,12 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list, realDataCoun
         return None
 
 def getResponse(param):
+    logger = getLogger()
     url = query_url + param
     try:
         r = requests.get(url)
     except Exception as ex:
-        traceback.print_exc()
+        logger.error('send query url get a exception: {0}'.format(ex))
     else:
         return r.text
 
