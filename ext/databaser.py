@@ -56,7 +56,8 @@ class Dber(object):
                 status = self.cur.execute(sql)
             return status
         except Exception as ex:
-            self.logger.error("execute sql err: {0}".format(ex))
+            self.logger.error("execute [{0}] err: {1}".format(sql, ex))
+            sys.exit()
 
     def setColse(self):
         self.conn.close()
