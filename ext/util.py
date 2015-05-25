@@ -53,7 +53,7 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list, realDataCoun
         if realDataCount == len(data[1:]) == len(offer_aff_combination) * cycletimes * 2:
             logger.info('imitate data count: {0} equal to query detail data count: {1}'.format(realDataCount, len(data[1:])))
         else:
-            logger.error('imitate data count: {0} != query detail data count: {1}'.format(realDataCount, len(data[1:])))
+            logger.error('{0} {1} {2} not equal'.format(realDataCount, len(data[1:]), len(offer_aff_combination) * cycletimes * 2))
             sys.exit()
         return data[0], data[1:]
     except Exception as ex:
