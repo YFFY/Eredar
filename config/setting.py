@@ -189,7 +189,7 @@ cycletimes = 1
 query_url = 'http://172.20.0.164:8080/impala/report?report_param='
 param_template = '{"settings":{"report_id":"111111111111","process_type":"druid","return_format":"json","data_source":"ymds_druid_datasource","time":{"start":%d,"end":%d,"timezone":0},"pagination":{"size":100000,"page":0}},"data":["profit","epc","conversion","arpa","click","acpa","cost","cr","rpc","cpc","unique_click","revenue","rows","conversion2"],"filters":{"$and":{"transaction_id":{"$in":%s},"offer_id":{"$neq":"-1"}}},"group":["aff_id", "aff_manager", "aff_sub1", "aff_sub2", "aff_sub3", "aff_sub4", "aff_sub5", "aff_sub6", "aff_sub7", "aff_sub8", "adv_id", "adv_manager", "adv_sub1", "adv_sub2", "adv_sub3", "adv_sub4", "adv_sub5", "adv_sub6", "adv_sub7", "adv_sub8", "offer_id", "rpa", "cpa", "ref_track", "ref_track_site", "click_ip", "conv_ip", "transaction_id", "click_time", "conv_time", "user_agent", "browser", "device_brand", "device_model", "device_os", "device_type", "country", "time_stamp", "log_tye", "visitor_id", "x_forwarded_for", "state", "city", "isp", "mobile_brand", "platform_id", "screen_width", "screen_height", "conversions", "track_type", "session_id", "visitor_node_id", "expiration_date", "is_unique_click", "gcid", "gcname", "os_ver", "datasource", "source", "request_url", "matched_format", "status", "message", "year", "month", "week", "day", "hour"]}'
 unix_end_offset_seconds = 300
-timewaitquerydetail = 60  # wait data flow to druid
+timewaitquerydetail = 120  # wait data flow to druid
 
 # 测试配置
 detailresultinfo = {
