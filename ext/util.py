@@ -52,9 +52,9 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list, realDataCoun
         data = json.loads(r.text).get('data').get('data')
         if realDataCount == len(data[1:]) == len(offer_aff_combination) * cycletimes * 2:
             logger.info('imitate data count: {0} equal to query detail data count: {1}'.format(realDataCount, len(data[1:])))
-            sys.exit()
         else:
             logger.error('imitate data count: {0} != query detail data count: {1}'.format(realDataCount, len(data[1:])))
+            sys.exit()
         return data[0], data[1:]
     except Exception as ex:
         logger.error('get druid detail result failed: {0}'.format(ex))
