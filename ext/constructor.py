@@ -47,7 +47,7 @@ class Constructor(object):
                     if randint(2,2) % 2 == 0:  # 100% percent to mock conversion data
                         try:
                             r = requests.get(conv_url)
-                            if r.text == 'success=true;conversioned':
+                            if r.status_code == 200:
                                 self.datacount += 1
                                 self.logger.info('imitate conversion data success')
                             else:
