@@ -13,6 +13,8 @@ from config.setting import *
 
 class Dber(object):
 
+    sync_sql = "insert into {0}{1} values {2}"
+
     def __init__(self):
         self.host = database.get('host')
         self.port = database.get('port')
@@ -34,7 +36,7 @@ class Dber(object):
     def syncDruidData(self, column, druidresult):
         if isinstance(druidresult, list):
             for result in druidresult:
-                insertSql = sync_sql.format(database.get('detail_table'), getVaildColumn(column), unicode2str(result))
+                insertSql = self.sync_sql.format(database.get('detail_table'), getVaildColumn(column), unicode2str(result))
                 self.executSql(insertSql)
             self.setCommit()
             self.logger.info('sync druid detail record to mysql success')
