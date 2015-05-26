@@ -82,14 +82,14 @@ class Tasker(object):
             else:
                 self.failcount += 1
                 detailResult = "failed"
-                self.logger.error('run case_id [{0}] [{1}] druid_query: [{2}] mysql_query: [{3}]'.format(
+                self.logger.info('run case_id [{0}] [{1}] druid_query: [{2}] mysql_query: [{3}]'.format(
                     caseid, detailResult, druid_query, mysql_query
                 ))
             syncDetailResultSql = """insert into ym_detail_result(taskid, caseid, result, druid_result, druid_query, mysql_query, mysql_result, run_time, taskflag) values ({0}, {1}, "{2}", "{3}", '{4}', "{5}", "{6}", "{7}", "{8}")""".format(
                 self.taskid, caseid, detailResult, druid_result, druid_query, mysql_query, mysql_result, get_now(), taskflag
             )
             self.dber.executSql(syncDetailResultSql)
-            time.sleep(5)
+            # time.sleep(5)
         if self.failcount == 0 and self.passcount != 0:
             taskResult = 'success'
         else:
