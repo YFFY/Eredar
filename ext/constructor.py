@@ -54,12 +54,13 @@ class Constructor(object):
                     r = requests.get(conv_url)
                     if r.text != "success=true;conversioned":
                         self.logger.error(r.text)
+                        sys.exit()
                     else:
                         self.convdatacount += 1
                         self.logger.info('set conv data success')
                 except Exception as ex:
                     traceback.print_exc()
-        self.logger.info('set click data count: {0}'.format(self.convdatacount))
+        self.logger.info('set conv data count: {0}'.format(self.convdatacount))
 
     @property
     def getTranasctionId(self):
