@@ -9,7 +9,7 @@ sys.path.append(os.path.split(os.path.abspath(sys.path[0]))[0])
 
 from ext.parser import QueryParser
 from config.setting import *
-from ext.util import get_datatime
+from ext.util import get_datatime, add
 
 
 class QueryConverter(object):
@@ -110,7 +110,7 @@ class QueryConverter(object):
             page = pagination.get('page')
             size = pagination.get('size')
             if page != 0:
-                sql_list.append(str(page + 1))
+                sql_list.append(str(add(page,1)))
                 sql_list.append(',')
                 sql_list.append(str(size))
             else:
