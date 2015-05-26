@@ -21,9 +21,12 @@ get_datatime = lambda x : time.strftime(TIME_FORMAT, time.localtime(x))
 get_now = lambda : time.strftime('%Y-%m-%dT%H:%M:%S',time.localtime(time.time()))
 datetime_timestamp = lambda x : int(time.mktime(time.strptime(x, '%Y-%m-%d %H:%M:%S')))
 getTaskFlag = lambda : 'tf{0}'.format(int(time.time()))
+add = lambda x, y : x + y
+
+
 
 def get_unixtime_range():
-     start = int(time.mktime(time.strptime(get_now(), '%Y-%m-%dT%H:%M:%S'))) - 120
+     start = add(int(time.mktime(time.strptime(get_now(), '%Y-%m-%dT%H:%M:%S'))), unix_start_offset_seconds)
      end = start + unix_end_offset_seconds
      return start, end
 
@@ -50,10 +53,8 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list, realDataCoun
     try:
         r = requests.get(geturl, timeout=60)
         data = json.loads(r.text).get('data').get('data')
-        if realDataCount == len(data[1:]) == len(offer_aff_combination) * cycletimes * 2:
-            logger.info('imitate data count: {0} equal to query detail data count: {1}'.format(realDataCount, len(data[1:])))
-        else:
-            logger.error('{0} {1} {2} not equal'.format(realDataCount, len(data[1:]), len(offer_aff_combination) * cycletimes * 2))
+        if realDataCount != len(data[1:]):
+            logger.error('set click and conv data: {0} != query detail data: {1}'.format(realDataCount, len(data[1:])))
             sys.exit()
         return data[0], data[1:]
     except Exception as ex:
@@ -87,9 +88,9 @@ def unicode2str(unicodeList):
 def getUtcHour():
     currentHour = datetime.now().hour
     if currentHour >= 8:
-        return currentHour - 8
+        return add(currentHour, -8)
     else:
-        return 16 + currentHour
+        return add(currentHour, 16)
 
 def getStrList(valueList):
     strValueList = list()
