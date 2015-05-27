@@ -35,7 +35,6 @@ class Constructor(object):
                         sys.exit()
                     else:
                         self.clickdatacount += 1
-                        self.logger.info('set click data success')
                 except Exception as ex:
                     traceback.print_exc()
                 else:
@@ -57,7 +56,6 @@ class Constructor(object):
                         sys.exit()
                     else:
                         self.convdatacount += 1
-                        self.logger.info('set conv data success')
                 except Exception as ex:
                     traceback.print_exc()
         self.logger.info('set conv data count: {0}'.format(self.convdatacount))
