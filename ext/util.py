@@ -47,6 +47,7 @@ def getDruidDetailResult(start_time, end_time, transaction_id_list, realDataCoun
         param = param.replace("'",'"')
     geturl = query_url + param
     isEnvOK()
+    setCache()
     # logger.info('get detail query param: {0}'.format(param))
     logger.info('wait {0} seconds to query detail data'.format(timewaitquerydetail))
     time.sleep(timewaitquerydetail)
