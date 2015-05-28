@@ -1,6 +1,7 @@
-# Eredar
 
-DRUID.IO  查询自动化
+<h1>Eredar</h1>
 
 
-在数据相同的前提下，DRUID SQL 和 其转换成的标准SQL 查询出来的数据应该一致
+<h2>introduction</h2>
+
+Eredar is a set of python scripts used to run automation test based on druid.io(http://druid.io/)
