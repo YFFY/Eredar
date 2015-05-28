@@ -19,6 +19,7 @@ class Tasker(object):
         self.caseidlist = caseidlist.split(',')
         self.queryNow = queryNow
         if self.queryNow:
+            isEnvOK()
             start, end = get_unixtime_range()
             self.dper.sync(start, end)
             self.updateCase(start, end, self.caseidlist)
